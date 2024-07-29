@@ -1,0 +1,36 @@
+.header{
+    background-color: var( --header_background_color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+.logo{
+    font-size: 30px;
+}
+.buttons{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items:center;
+        justify-content: center;
+        gap: 10px;
+}
+.username_or_email,.password{
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+.username_or_email input,.password input{
+    padding: 12px 5px;
+    border-radius: 5px;
+    background-color: red;
+}
