@@ -34,3 +34,12 @@
     border-radius: 5px;
     background-color: red;
 }
+.links{
+    display: flex;
+    gap: 10px;
+}
+.img_lnks{
+    display: flex;
+     align-items: center;
+     gap: 50px;
+}
