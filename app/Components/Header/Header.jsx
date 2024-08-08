@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import header from './Header.module.css'
 import {ModeToggle} from '../theme/ModeToggle'
 import {
@@ -19,17 +19,43 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
+import { useRouter } from 'next/navigation';
 
 
 
 export default function Header() {
+  const router = useRouter();
+
   const [logged, setLogged] = useState(false)
+
+  const [cart,setCart] = useState(0)
+
+  useEffect(() => {
+    
+    if(localStorage.getItem("cart_qty")){
+      setCart(Number(localStorage.getItem("cart_qty")))
+    }
+    if(localStorage.getItem("logged")){
+      setLogged(true)
+    }
+  
+  }, []
+  )
+
+const  login = () =>{
+  setLogged(true)
+  localStorage.setItem("logged", true)
+}
+const logOut = () =>{
+  localStorage.removeItem("logged")
+  router.push('/');
+}
   return (
     <nav className={header.header}>
       <div className={header.img_lnks}>
 
       <div className={header.logo}>
-        🛠️
+        <Link href={"/"}>🛠️</Link>
       </div>
     {
       logged?
@@ -51,6 +77,9 @@ export default function Header() {
 
       </div>
       <div className={header.buttons}>
+      {logged?<Button variant="outline" onClick={()=>setAsAdmin()}>Set As Admin</Button>:null}
+      {logged?<Button variant="outline" onClick={()=>logOut()}>Log Out</Button>:null}
+        {logged?cart:null}
         <ModeToggle />
 
       {
@@ -75,7 +104,8 @@ export default function Header() {
                     <label htmlFor="password">Pasword</label>
                     <input type="password" name="password" id="password" />
                   </div>
-                  <input type="submit" value="Enter" onClick={()=>setLogged(!logged)}/>
+                  <Button variant="outline" onClick={()=>login()} >Enter</Button>
+                  {/* <input type="submit" value="Enter" /> */}
                 </form>
               {/* </DialogDescription> */}
             </DialogHeader>
