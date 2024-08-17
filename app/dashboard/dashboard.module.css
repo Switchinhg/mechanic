@@ -1,0 +1,3 @@
+.dashboard_wrap{
+    height: calc( 100vh - 86px - 50px);
+}

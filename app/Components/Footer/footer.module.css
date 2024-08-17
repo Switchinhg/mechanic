@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     height: 50px;
-    background-color: yellow;
+    background-color: var(--footer_backg);
     display: flex;
     justify-content: center;
     align-items: center;

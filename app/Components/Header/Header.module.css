@@ -1,9 +1,10 @@
 .header{
-    background-color: var( --header_background_color);
+    background-color: var( --header_backg ) !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    border-bottom:  solid 1px var(--border-color);
 }
 .logo{
     font-size: 30px;

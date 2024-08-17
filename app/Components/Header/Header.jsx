@@ -50,6 +50,8 @@ const logOut = () =>{
   localStorage.removeItem("logged")
   router.push('/');
 }
+
+
   return (
     <nav className={header.header}>
       <div className={header.img_lnks}>

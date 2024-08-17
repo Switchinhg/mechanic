@@ -1,0 +1,24 @@
+.sidebar{
+    height: 100%;
+    width: 300px;
+    background-color: var(--header_backg);
+    display: flex;
+    flex-direction: column;
+    border-right: solid 1px var(--border-color);
+}
+.sidebar_header{
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+.sidebar_body{
+    display: flex;
+    flex-direction: column;
+}
+.sidebar_link{
+    padding:  1rem;
+    border-bottom: solid 1px var(--border-color);
+}
+.sidebar_link:hover{
+    background-color: var(--footer_backg);
+}
