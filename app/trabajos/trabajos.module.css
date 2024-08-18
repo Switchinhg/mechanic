@@ -1,0 +1,15 @@
+.trabajos_wrap{
+    height: calc( 100vh - 86px - 50px);
+    display: flex;
+}
+.trabajos{
+    /* padding: 10px; */
+    width: 100%;
+}
+.trabajos_header{
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    background-color: wheat;
+    width: 100%;
+}
