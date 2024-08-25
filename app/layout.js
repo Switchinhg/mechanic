@@ -2,8 +2,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./Components/theme/ThemeProvider";
 import Header from "./Components/Header/Header";
-import Footer from "./Components/Footer/Footer";
 import { Toaster } from "@/components/ui/toaster"
+import { UserProvider } from "./Components/context/UserContext";
 
 
 
@@ -19,17 +19,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Header />
-          {children}
-          <Footer />
-          <Toaster />
-        </ThemeProvider>
+        <UserProvider>
+
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+            >
+            <Header />
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </UserProvider>
       </body>
     </html>
   );
