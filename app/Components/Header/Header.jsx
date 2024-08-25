@@ -31,7 +31,10 @@ export default function Header() {
   // const router = useRouter();
   // router.push('/');
 
-  const {logged, login, logout , register}= useUserContext()
+  const {logged, login, logout , register, user}= useUserContext()
+  
+  
+  
 
 
 
@@ -64,7 +67,6 @@ export default function Header() {
       </div>
       <div className={header.buttons}>
       {logged?<Button variant="outline" onClick={()=>setAsAdmin()}>Set As Admin</Button>:null}
-      {logged?<Button variant="outline" onClick={()=>logout()}>Log Out</Button>:null}
         {/* {logged?cart:null} */}
         <ModeToggle />
 
@@ -75,32 +77,8 @@ export default function Header() {
               Entrar a msTaller
             </Link>
           </Button>
-        // <Dialog>
-        //   <DialogTrigger>
-
-        //   </DialogTrigger>
-        //   <DialogContent>
-        //     <DialogHeader>
-        //       <DialogTitle>Log in</DialogTitle>
-        //       {/* <DialogDescription> */}
-        //         <form action="" className={header.form}>
-        //           <div className={header.username_or_email}>
-        //             <label htmlFor="user_or_email">Username Or Email</label>
-        //             <input type="text" name="user_or_email" id="user_or_email" />
-        //           </div>
-        //           <div className={header.password}>
-        //             <label htmlFor="password">Pasword</label>
-        //             <input type="password" name="password" id="password" />
-        //           </div>
-        //           <Button variant="outline" onClick={()=>login()} >Enter</Button>
-        //           {/* <input type="submit" value="Enter" /> */}
-        //         </form>
-        //       {/* </DialogDescription> */}
-        //     </DialogHeader>
-        //   </DialogContent>
-        // </Dialog>
         :
-        <>Logged</>
+        <>{logged?<Button variant="outline" onClick={()=>logout()}>Log Out</Button>:null}</>
       }
         
       </div>

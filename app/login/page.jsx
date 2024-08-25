@@ -31,10 +31,23 @@ export default function Login() {
     }
 
     const fetchLogin = async (email, password) =>{
-        login(email, password)
+        const resp = await login(email, password)
+        if(!resp){
+            return
+        }
+        if(!resp.success){
+            console.log(resp)
+            setError(resp.message)
+        }
     }   
     const  fetchRegister = async (email, password) =>{
-        register(email, password)
+        const resp = await register(email, password)
+        if(!resp){
+            return
+        }
+        if(!resp.success){
+            setError(resp.message)
+        }
     }
   return (
     <div className={style.id_wrapper}>

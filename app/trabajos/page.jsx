@@ -3,7 +3,7 @@ import SideBar from '../Components/sidebar/page'
 import style from './trabajos.module.css'
 export default function Trabajos() {
   return (
-    <div class={style.trabajos_wrap}>
+    <div className={style.trabajos_wrap}>
         <SideBar />
         <div className={style.trabajos}>
           <div className={style.trabajos_header}>

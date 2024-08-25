@@ -6,7 +6,7 @@ import style from './dashboard.module.css'
 
 export default function page() {
   return (
-    <div class={style.dashboard_wrap}>
+    <div className={style.dashboard_wrap}>
         <SideBar />
     </div>
   )
