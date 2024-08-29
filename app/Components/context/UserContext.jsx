@@ -3,6 +3,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { RedirectType, useRouter } from 'next/navigation';
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { app } from '@/firebase/config';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '@/firebase/config';
 
 
 const UserContext = createContext()
@@ -16,7 +18,8 @@ export const UserProvider = ({children}) =>{
 
     const [user,setUser] = useState(null)
     const [logged, setLogged] = useState(false)
-
+    
+    // console.log(user?.uid )//get user UID
 
     useEffect(() => {
         const auth = getAuth(app);
@@ -29,6 +32,12 @@ export const UserProvider = ({children}) =>{
       
           return () => unsubscribe();
     }, [])
+
+    const setUserDataInDB = async (InitialData) =>{
+        const userData = collection(db, "users");
+        // Save the template data to the collection
+        await addDoc(userData, InitialData);
+      }
     
 
     const login = async (email,password) =>{
@@ -48,6 +57,7 @@ export const UserProvider = ({children}) =>{
     const logout = async () =>{
         signOut(auth).then(() => {
             setLogged(false)
+            router.push('/');
         }).catch((error) => {
         });
     }
@@ -57,9 +67,18 @@ export const UserProvider = ({children}) =>{
         try{
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
             const user = userCredential.user 
+            if(user.uid){
+                setUserDataInDB({
+                    email:email,
+                    lastname:"",
+                    name:"",
+                    stores:0,
+                    tier:"basic"
+                  })   
                 setUser(user)
                 setLogged(true)
                 router.push('/');
+            }
         }catch(error){
             const errorMessage = error.message;
             return { success: false, message: errorMessage}

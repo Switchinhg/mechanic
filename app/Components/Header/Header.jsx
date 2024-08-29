@@ -21,8 +21,8 @@ import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '../context/UserContext'
-
-
+import { usePathname } from 'next/navigation'
+import { useCartContext } from '../context/CartContext'
 
 
 
@@ -30,13 +30,12 @@ import { useUserContext } from '../context/UserContext'
 export default function Header() {
   // const router = useRouter();
   // router.push('/');
+  const path = usePathname()
 
-  const {logged, login, logout , register, user}= useUserContext()
+  const {logged, logout }= useUserContext()
+  const { cart } = useCartContext()
   
   
-  
-
-
 
 
   return (
@@ -49,16 +48,17 @@ export default function Header() {
     {
       logged?
         <ul className={header.links}>
-          <li><Link href={"/dashboard"}>Dashboard</Link></li>
+          <li className={path == "/dashboard"? "link_active":""}><Link href={"/dashboard"}>Panel</Link></li>
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger><li className="unavailable">Create Store</li></TooltipTrigger>
+              <TooltipTrigger>
+                <li className={path == "/store"? "link_active unavailable":"unavailable"}><Link href={"/store"}>Crear Tienda</Link></li></TooltipTrigger>
               <TooltipContent>
                 <p>Under Development</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <li><Link href={"/catalogo"}>Catalogo</Link></li>
+          <li><Link href={"/catalogo"} className={path == "/catalogo"? "link_active" :""}>Catalogo (testeo)</Link></li>
           
         </ul>
       : null
@@ -67,7 +67,7 @@ export default function Header() {
       </div>
       <div className={header.buttons}>
       {logged?<Button variant="outline" onClick={()=>setAsAdmin()}>Set As Admin</Button>:null}
-        {/* {logged?cart:null} */}
+        {logged?cart.length:null}
         <ModeToggle />
 
       {

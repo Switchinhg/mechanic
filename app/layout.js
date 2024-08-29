@@ -4,6 +4,7 @@ import { ThemeProvider } from "./Components/theme/ThemeProvider";
 import Header from "./Components/Header/Header";
 import { Toaster } from "@/components/ui/toaster"
 import { UserProvider } from "./Components/context/UserContext";
+import { CartProvider } from "./Components/context/CartContext";
 
 
 
@@ -20,17 +21,19 @@ export default function RootLayout({ children }) {
     <html lang="es" suppressHydrationWarning>
       <body className={inter.className}>
         <UserProvider>
+          <CartProvider>
 
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-            >
-            <Header />
-            {children}
-            <Toaster />
-          </ThemeProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+              >
+              <Header />
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </CartProvider>
         </UserProvider>
       </body>
     </html>

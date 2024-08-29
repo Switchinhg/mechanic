@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import ItemList from '../Components/ItemList/ItemList'
 import styles from './catalogo.module.css'
+import { Suspense } from 'react'
 
 export default async function page() {
   // TODO Change fetch link to env !!
@@ -33,7 +34,9 @@ export default async function page() {
       <h1>View Products</h1>
 
       <div>
-        <ItemList items={products} />
+        <Suspense fallback={<div>Cargandi...</div>}>
+          <ItemList items={products} />
+        </Suspense>
       </div>
     </>
   )

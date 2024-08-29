@@ -10,7 +10,7 @@ export default function SideBar() {
                 {/* <div>X</div> */}
             {/* </div> */}
             <div className={style.sidebar_body}>
-                <Link className={style.sidebar_link} href="/dashboard">Overview</Link>
+                <Link className={style.sidebar_link} href="/dashboard">Detalles</Link>
                 <Link className={style.sidebar_link} href="/trabajos">Trabajos</Link>
                 <Link className={style.sidebar_link} href="/settings">Configuración</Link>
                 {/* <div>X</div> */}
