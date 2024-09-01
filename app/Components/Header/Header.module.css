@@ -44,3 +44,35 @@
      align-items: center;
      gap: 50px;
 }
+.test{
+    position: relative;
+}
+.cart_wrap{
+    width: 206px;
+    position: absolute;
+    /* display: none; */
+    flex-direction: column;
+    top: 15px;
+    right: -100px;
+    
+    background-color: var(--header_backg);
+    border: solid 1px var(--border-color);
+    padding: 1rem;
+
+    border-radius: 12px;
+}
+.cart_wrap_no_show_cart{
+    display: none;
+}
+.cart_wrap_show_cart{
+    display: flex !important;
+}
+.cart_qty_p{
+    padding: 0.5rem 1rem ;
+}
+.btn_goto_cart_wrap{
+    margin-top: 20px;
+}
+.text_align{
+    text-align: center;
+}

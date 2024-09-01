@@ -34,9 +34,16 @@ export default function Header() {
 
   const {logged, logout }= useUserContext()
   const { cart } = useCartContext()
-  
-  
+  const [showMenu, setShowMenu] = useState(false)
 
+  const showCart = () =>{
+    setShowMenu(true)
+  }
+  const hideCart = () =>{
+    setShowMenu(false)
+  }
+  
+  
 
   return (
     <nav className={header.header}>
@@ -67,7 +74,27 @@ export default function Header() {
       </div>
       <div className={header.buttons}>
       {logged?<Button variant="outline" onClick={()=>setAsAdmin()}>Set As Admin</Button>:null}
-        {logged?cart.length:null}
+        {logged?
+        <>
+        <p className={header.cart_qty_p} onMouseOver={()=>showCart()} onMouseLeave={()=>hideCart()}>{cart.length}</p>
+        <div className={header.test}>
+          {Number(cart.length) > 0?
+          <div onMouseOver={()=>showCart()} onMouseLeave={()=>hideCart()} className={`${header.cart_wrap} ${showMenu ? header.cart_wrap_show_cart : header.cart_wrap_no_show_cart}`}>
+            {cart.map(e=>e + " ")}
+
+              <Button className={header.btn_goto_cart_wrap} variant="outline"> <Link href={"/cart"}>Go to cart</Link> </Button>
+          </div>
+          
+          :
+
+          <div onMouseOver={()=>showCart()} onMouseLeave={()=>hideCart()} className={`${header.cart_wrap} ${header.text_align} ${showMenu ? header.cart_wrap_show_cart : header.cart_wrap_no_show_cart}`}>
+            El carrito esta vacio!
+          </div>
+          }
+        </div>
+        </>
+        :
+        null}
         <ModeToggle />
 
       {
