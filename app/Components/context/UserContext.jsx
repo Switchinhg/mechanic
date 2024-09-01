@@ -25,7 +25,14 @@ export const UserProvider = ({children}) =>{
         const auth = getAuth(app);
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if(user){
-                setUser(user);
+                setUser({
+                    email:user.email,
+                    uid:user.uid,
+                    accessToken:user.accessToken,
+                    display_name:user.displayName,
+                    email_verified:user.emailVerified,
+                    last_login:user.metadata.lastLoginAt
+                })
                 setLogged(true);
             }
           });
@@ -44,7 +51,14 @@ export const UserProvider = ({children}) =>{
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-                setUser(user)
+                setUser({
+                    email:user.email,
+                    uid:user.uid,
+                    accessToken:user.accessToken,
+                    display_name:user.displayName,
+                    email_verified:user.emailVerified,
+                    last_login:user.metadata.lastLoginAt
+                })
                 setLogged(true)
                 router.push('/');
 
@@ -75,7 +89,14 @@ export const UserProvider = ({children}) =>{
                     stores:0,
                     tier:"basic"
                   })   
-                setUser(user)
+                  setUser({
+                    email:user.email,
+                    uid:user.uid,
+                    accessToken:user.accessToken,
+                    display_name:user.displayName,
+                    email_verified:user.emailVerified,
+                    last_login:user.metadata.lastLoginAt
+                })
                 setLogged(true)
                 router.push('/');
             }
