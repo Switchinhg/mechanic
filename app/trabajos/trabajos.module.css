@@ -5,11 +5,77 @@
 .trabajos{
     /* padding: 10px; */
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .trabajos_header{
     display: flex;
     gap: 20px;
     padding: 10px;
-    background-color: wheat;
+    background-color: rgb(9, 24, 51);
     width: 100%;
+}
+.trabajos_fix_wrap{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+.trabajo{
+    width: 600px;
+    padding: 20px;
+    background-color: var(--header_backg);
+    border: solid 1px var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+}
+.trabajo_header{
+    display: flex;
+    justify-content: space-between;
+}
+.trabajo_body li{
+    font-size: 12px;
+}
+.trabajo_body ul{
+    padding-left: 15px;
+}
+
+.trabajo_footer{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.footer_tags{
+    display: flex;
+    gap: 10px;
+}
+
+.trabajo_actions{
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    /* left: 0; */
+    top: 41px;
+    /* width: 100px; */
+    padding: 20px;
+    background-color: var(--header_backg);
+    border: solid 1px var(--border-color);
+    border-radius: 12px;
+}
+.trabajo_actions p{
+    padding: 10px;
+    border-radius: 6px;
+}
+.trabajo_actions p:hover{
+    background-color: var(--border-color);
+    cursor: pointer;
+}
+.trabajo_actions_open{
+    display: flex;
 }

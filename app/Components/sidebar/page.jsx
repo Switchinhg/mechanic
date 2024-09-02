@@ -15,6 +15,10 @@ export default function SideBar() {
                 <Link className={style.sidebar_link} href="/settings">Configuración</Link>
                 {/* <div>X</div> */}
             </div>
+
+            <div className={style.versioning}>
+              Version <span>{process.env.version}</span>
+            </div>
     </div>
   )
 }

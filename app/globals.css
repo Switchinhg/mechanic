@@ -34,6 +34,7 @@
     --header_backg: #FFFFFF;
     --footer_backg:#dfdfdf;
     --border-color: #EFEFEF;
+    --subtext: #91989F;
 
 
     --foreground: 222.2 84% 4.9%;
@@ -69,6 +70,8 @@
     --header_backg: #1B1D20;
     --footer_backg:#464646;
     --border-color: #393E46;
+    --subtext: #91989F;
+
 
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
