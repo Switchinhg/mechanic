@@ -17,7 +17,7 @@ export default function SideBar() {
             </div>
 
             <div className={style.versioning}>
-              Version <span>{process.env.version}</span>
+              Version <span>{process.env.NEXT_PUBLIC_VERSION}</span>
             </div>
     </div>
   )

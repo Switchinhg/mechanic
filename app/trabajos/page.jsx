@@ -3,15 +3,22 @@ import React, { useState } from 'react'
 import SideBar from '../Components/sidebar/page'
 import style from './trabajos.module.css'
 import { Button } from '@/components/ui/button'
+import TrabajosModal from '../Components/trabajosmodal/TrabajosModal'
 export default function Trabajos() {
-  const [actionOpen, setActionOpen] = useState(false)
+  const [actionOpen, setActionOpen] = useState(false) /* For actions on tag */
+  const [open, setOpen] = useState(false) /* For modal of new job */
+
+  const setOpenModal = () =>{
+    setOpen(!open)
+  }
+  
   return (
     <div className={style.trabajos_wrap}>
         <SideBar />
         <div className={style.trabajos}>
           <div className={style.trabajos_header}>
-            <div className="trabajos_btton">Agregar trabajo</div>
-            <div className="trabajos_btton">Buscar</div>
+            <div className="trabajos_btton"><Button variant="secondary"className="" onClick={setOpenModal}>Crear trabajo</Button> </div>
+            <div className="trabajos_btton"><Button variant="secondary"className="">Buscar</Button></div>
             {/* <div className="trabajos_btton">Agregar trabajo</div>
             <div className="trabajos_btton">Agregar trabajo</div> */}
           </div>
@@ -52,6 +59,8 @@ export default function Trabajos() {
                   </div>
               </div>
               </div>
+
+              <TrabajosModal open={open} setOpen={setOpen}/>
         </div>
     </div>
   )

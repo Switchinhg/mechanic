@@ -1,0 +1,6 @@
+.modal_back{
+    background-color: var(--header_backg);
+}
+.button_switch span{
+    background-color: var(--border-color);
+}
