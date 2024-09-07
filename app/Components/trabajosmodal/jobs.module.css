@@ -4,3 +4,27 @@
 .button_switch span{
     background-color: var(--border-color);
 }
+.modal_test{
+    position: fixed;
+    top: 400px;
+    width: 360px;
+    left: 50vw;
+}
+@media only screen and (min-width: 470px) {
+    .modal_test{
+        /* top: 37%; */
+        width: 460px;
+    }
+}
+@media only screen and (min-width: 570px) {
+    .modal_test{
+        /* top: 37%; */
+        width: 560px;
+    }
+}
+@media only screen and (min-width: 720px) {
+    .modal_test{
+        /* top: 37%; */
+        width: 700px;
+    }
+}
