@@ -6,8 +6,6 @@ export async function POST(request) {
 
     const {email} = await request.json()
     
-    console.log(email)
-
     const q = query(collection(db, "users"), where("Email", "==", email));
 
     const querySapshot = await getDocs(q)

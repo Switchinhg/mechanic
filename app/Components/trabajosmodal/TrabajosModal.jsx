@@ -48,7 +48,10 @@ export default function TrabajosModal({open,setOpen}) {
       urgentRepair,
       preferredDate,
       additionalNotes,
-      tallerID:user.uid 
+      tallerID:user.uid,
+      finished:false,
+      paid:false,
+      started_working:false,
     };
 
 
