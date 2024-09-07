@@ -122,3 +122,6 @@
   color:rgba(140, 232, 110, 0.585);
   /* font-weight: bolder; */
 }
+.error_color{
+  color:#d65555;
+}

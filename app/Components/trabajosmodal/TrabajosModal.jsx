@@ -33,7 +33,7 @@ export default function TrabajosModal({open,setOpen}) {
   const [additionalNotes, setAdditionalNotes] = useState("");
 
   const createJob = async () =>{
-    console.log(user)
+    const today = Date.now();
     const jobData = {
       firstName,
       lastName,
@@ -52,33 +52,41 @@ export default function TrabajosModal({open,setOpen}) {
       finished:false,
       paid:false,
       started_working:false,
+      jobsCreated: today
     };
 
-
-    let request = await fetch( process.env.NEXT_PUBLIC_URL + "/api/jobs", {
-      method:"POST",
-      headers: {
-        "Content-Type": "application/json",
-    },
-    body: JSON.stringify(jobData),
-    }
-    )
-    let resp = await request.json()
-
-    if(resp.success){
+    if(!firstName || !lastName || !email || !phone || !maker || !model || !serviceType || !description ){
       toast({
-        title: "Trabajo creado",
-        description: resp.message,
-        status: "success",
-      });
-      setOpen(false)
-    }else{
-      toast({
-        title: "Error al crear trabajo",
-        description: resp.message,
+        variant: "destructive",
+        title: "Error - Algunos datos son necesarios",
         status: "error",
       });
-      setOpen(false)
+    }else{
+      let request = await fetch( process.env.NEXT_PUBLIC_URL + "/api/jobs", {
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+          body: JSON.stringify(jobData),
+        }
+        )
+      let resp = await request.json()
+  
+      if(resp.success){
+        toast({
+          title: "Trabajo creado",
+          description: resp.message,
+          status: "success",
+        });
+        setOpen(false)
+      }else{
+        toast({
+          title: "Error al crear trabajo",
+          description: resp.message,
+          status: "error",
+        });
+        setOpen(false)
+      }
     }
   }
 
@@ -100,20 +108,20 @@ export default function TrabajosModal({open,setOpen}) {
               <h3 className="text-lg font-semibold">Información del cliente</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">Nombre</Label>
+                  <Label htmlFor="firstName">Nombre <span className="error_color">*</span></Label>
                   <Input id="firstName" placeholder="Santiago" value={firstName} onChange={(e) =>setFirstName(e.target.value)} />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">Apellido</Label>
+                  <Label htmlFor="lastName">Apellido <span className="error_color">*</span></Label>
                   <Input id="lastName" placeholder="Font" value={lastName} onChange={(e) =>setLastName(e.target.value)}/>
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Email <span className="error_color">*</span></Label>
                 <Input id="email" type="email" placeholder="alguien@correo.com" value={email} onChange={(e) =>setEmail(e.target.value)}/>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="phone">Número de teléfono</Label>
+                <Label htmlFor="phone">Número de teléfono <span className="error_color">*</span></Label>
                 <Input id="phone" type="tel" placeholder="095 637 215" value={phone} onChange={(e) =>setPhone(e.target.value)}/>
               </div>
             </div>
@@ -122,11 +130,11 @@ export default function TrabajosModal({open,setOpen}) {
               <h3 className="text-lg font-semibold">Detalles del vehículo</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="make">Marca</Label>
+                  <Label htmlFor="make">Marca <span className="error_color">*</span></Label>
                   <Input id="make" placeholder="Toyota" value={maker} onChange={(e) =>setMaker(e.target.value)}/>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="model">Modelo</Label>
+                  <Label htmlFor="model">Modelo <span className="error_color">*</span></Label>
                   <Input id="model" placeholder="Camry" value={model} onChange={(e) =>setModel(e.target.value)}/>
                 </div>
               </div>
@@ -139,7 +147,7 @@ export default function TrabajosModal({open,setOpen}) {
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">Información de la reparación</h3>
               <div className="space-y-2">
-                <Label htmlFor="serviceType">Tipo del servicio</Label>
+                <Label htmlFor="serviceType">Tipo del servicio <span className="error_color">*</span></Label>
                 <Select onValueChange={(value) => setServiceType(value)}>
                   <SelectTrigger id="serviceType">
                     <SelectValue placeholder="Seleccionar tipo de servicio" />
@@ -153,7 +161,7 @@ export default function TrabajosModal({open,setOpen}) {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="description">Descripción del problema</Label>
+                <Label htmlFor="description">Descripción del problema <span className="error_color">*</span></Label>
                 <Textarea id="description" placeholder="Por favor describir el problema del vehiculo" value={description} onChange={(e) =>setDescription(e.target.value)}/>
               </div>
               <div className="space-y-2">

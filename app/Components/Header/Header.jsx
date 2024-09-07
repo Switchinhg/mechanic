@@ -80,7 +80,7 @@ export default function Header() {
         <div className={header.test}>
           {Number(cart.length) > 0?
           <div onMouseOver={()=>showCart()} onMouseLeave={()=>hideCart()} className={`${header.cart_wrap} ${showMenu ? header.cart_wrap_show_cart : header.cart_wrap_no_show_cart}`}>
-            {cart.map(e=>e + " ")}
+            {cart.map((e, index)=><div key={index}>{e}</div> + " ")}
 
               <Button className={header.btn_goto_cart_wrap} variant="outline"> <Link href={"/cart"}>Go to cart</Link> </Button>
           </div>

@@ -1,5 +1,5 @@
 .trabajos_wrap{
-    height: calc( 100vh - 86px);
+    min-height: calc( 100vh - 86px);
     display: flex;
 }
 .trabajos{

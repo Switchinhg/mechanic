@@ -10,10 +10,10 @@ export default function Cart() {
     <div>
       <h1>Carrito</h1>
       {cart.length > 0?
-        cart.map(e=> <div>{e}</div>)
+        cart.map((e, index)=> <div key={index}>{e}</div>)
       :
         <>Carrito vacio.</>
-    }
+      }
 
     </div>
   )

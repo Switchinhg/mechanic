@@ -11,22 +11,41 @@ export default function Trabajos() {
   const [open, setOpen] = useState(false) /* For modal of new job */
   const [jobs, setJobs] = useState([])
 
+  const [noData, setNoData] = useState(false)
+
   const {user} = useUserContext()
 
   const setOpenModal = () =>{
     setOpen(!open)
   }
 
-  useEffect(() => {
-    const getJobs = async () =>{
-      const request = await fetch(process.env.NEXT_PUBLIC_URL + "/api/jobs/" + user.uid)
-      const resp = await request.json()
-      setJobs(resp.data)
+  const getJobs = async () =>{
+    const request = await fetch(process.env.NEXT_PUBLIC_URL + "/api/jobs/" + user.uid)
+    const resp = await request.json()
+    setJobs(resp.data)
+    if(resp.data.length === 0){
+      setNoData(true)
     }
+  }
+  useEffect(() => {
     if(user?.uid){
       getJobs()
     }
-  }, [])
+  }, [user])
+  
+  useEffect(()=>{
+    if(user?.uid){
+      getJobs()
+    }
+  },[open])
+
+  const formatCash = (quantity) =>{
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    })
+    return formatter.format(quantity)
+  }
   
   
   return (
@@ -40,38 +59,53 @@ export default function Trabajos() {
             <div className="trabajos_btton">Agregar trabajo</div> */}
           </div>
           {jobs.length>0? 
-          jobs.map(data => 
-            <div className={style.trabajos_fix_wrap}>
-              <div className={style.trabajo}>
-                <div className={style.trabajo_header}>
-                  <div className={style.cliente}>
-                    <h2>Cliente - {data.firstName}</h2>
-                    <p>Auto - {data.maker} {data.model} { data.year}</p>
-                  </div>
-                  {/* <p>Ingreso <span>{data.enterDate }</span></p> */}
-                </div>
-                <div className={style.trabajo_body}>
-                  <p>Realizado</p>
-                  <ul>
-                    <li>{data.description}</li>
-                  </ul>
+          jobs.map((data, index) => 
 
-                </div>
-                <div className={style.trabajo_footer}>
-                  <Button variant="outline" onClick={()=>setActionOpen(!actionOpen)}>Acciones</Button>
-                    <div className={`${style.trabajo_actions} ${actionOpen? style.trabajo_actions_open: null }`}>
-                      <p>Terminado</p>
-                      <p>Marcar como terminado y notificar cliente</p>
-                      <p>Crear PDF</p>
+          <div key={index}>
+
+            {!data.finished?
+              
+              <div key={index} className={style.trabajos_fix_wrap}>
+                <div className={style.trabajo}>
+                  <div className={style.trabajo_header}>
+                    <div className={style.cliente}>
+                      <h2>Cliente - {data.firstName} {data.lastName}</h2>
+                      <p>Auto - {data.maker} {data.model} { data.year}</p>
                     </div>
-                  <p>Costo estimado: UY $ {data.estimatedCost}</p>
+                    <p>Ingreso <span>{data.jobCreatedATFormatted }</span></p>
+                  </div>
+                  <div className={style.trabajo_body}>
+                    <p>Realizado</p>
+                    <ul>
+                      <li>{data.description}</li>
+                    </ul>
+
+                  </div>
+                  <div className={style.trabajo_footer}>
+                    <Button variant="outline" onClick={()=>setActionOpen(!actionOpen)}>Acciones</Button>
+                      <div className={`${style.trabajo_actions} ${actionOpen? style.trabajo_actions_open: null }`}>
+                        <p>Terminado</p>
+                        <p>Marcar como terminado y notificar cliente</p>
+                        <p>Crear PDF</p>
+                      </div>
+                    <p>Costo estimado: UY $ {formatCash(data.estimatedCost)}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          )
 
+            :
+              null
+            }
+
+          </div>
+          )
+ 
           :
-          <p>Loading...</p>
+          
+          !noData?
+            <p>Loading...</p>
+          :
+            <p>No data available</p>
           }
           
               {/*  */}
