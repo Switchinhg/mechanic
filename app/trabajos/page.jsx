@@ -5,11 +5,14 @@ import style from './trabajos.module.css'
 import { Button } from '@/components/ui/button'
 import TrabajosModal from '../Components/trabajosmodal/TrabajosModal'
 import { useUserContext } from '../Components/context/UserContext'
+import { toast } from '@/components/ui/use-toast'
+import { Input } from '@/components/ui/input'
 
 export default function Trabajos() {
-  const [actionOpen, setActionOpen] = useState(false) /* For actions on tag */
+  const [actionOpen, setActionOpen] = useState() /* For actions on tag */
   const [open, setOpen] = useState(false) /* For modal of new job */
   const [jobs, setJobs] = useState([])
+  const [jobsFilter, setJobsFilter] = useState([])
 
   const [noData, setNoData] = useState(false)
 
@@ -42,11 +45,86 @@ export default function Trabajos() {
   const formatCash = (quantity) =>{
     const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'UYU',
     })
     return formatter.format(quantity)
   }
+
+  const openAndCloseActions = (index) =>{
+    if(actionOpen == index){
+      setActionOpen()
+    }else{
+      setActionOpen(index)
+    }
+  }
+
+  const markAsClosed = async (id_doc, notify) =>{
+    const request = await fetch(process.env.NEXT_PUBLIC_URL + "/api/jobs/",{
+      method:"PATCH",
+      headers: {
+        "Content-Type": "application/json",
+    },
+      body: JSON.stringify({ id_doc, notify, campo:"finished" }),
+      
+    })
+    const resp = await request.json()
+    if(resp.success){
+      toast({
+        title: "Trabajo archivado",
+        description: resp.message,
+        status: "success",
+      });
+      getJobs()
+    }else{
+      toast({
+        variant: "destructive",
+        title: "Error ",
+        description: resp.message,
+        status: "error",
+      });
+
+    }
+  }
+
+  const checkIfEmpty = (array) =>{
+    for (const el of array) {
+      if(!el.finished){
+        return true // true means is not empty
+      }
+    }
+  }
+
+
+  const noHayTrabajosDisponibles = () =>{
+    return  (<div className={style.zero_stores}>
+                <h1>No hay trabajos disponibles</h1>
+                <p>Click <span onClick={setOpenModal}> Aqui </span> para agregar uno</p>
+              </div>)
+  }
   
+  const searchByWord = (e) =>{  
+    if(jobsFilter.length == 0){
+      setJobsFilter(jobs)
+    }
+    if(jobs.length > 0 && e.target.value){
+      for (const el of jobs) {
+        if(el.model.includes(e.target.value) || el.additionalNotes.includes(e.target.value) || el.description.includes(e.target.value) || el.email.includes(e.target.value) || el.firstName.includes(e.target.value) || el.lastName.includes(e.target.value) || el.maker.includes(e.target.value) || el.phone.includes(e.target.value) || el.year.includes(e.target.value)){
+          let a = jobsFilter.filter(e=> e == el)
+          console.log(a)
+          if(a.length > 0){
+            setJobs(a)
+          }else{
+            console.log("nope")
+          }
+        }else{
+          
+        }
+      }
+    }
+    if(e.target.value.length == 0){
+      
+    }
+  }
   
   return (
     <div className={style.trabajos_wrap}>
@@ -54,14 +132,12 @@ export default function Trabajos() {
         <div className={style.trabajos}>
           <div className={style.trabajos_header}>
             <div className="trabajos_btton"><Button variant="secondary"className="" onClick={setOpenModal}>Crear trabajo</Button> </div>
-            <div className="trabajos_btton"><Button variant="secondary"className="">Buscar</Button></div>
-            {/* <div className="trabajos_btton">Agregar trabajo</div>
-            <div className="trabajos_btton">Agregar trabajo</div> */}
+            <div className="trabajos_btton"><Input variant="secondary" type="text" placeholder="Buscar por palabra" onChange={(e)=>searchByWord(e)} /></div>
+            <div className="trabajos_btton"><Button variant="secondary"className="">Ver trabajos finalizados</Button></div>
           </div>
           {jobs.length>0? 
           jobs.map((data, index) => 
-
-          <div key={index}>
+            <div key={index}>
 
             {!data.finished?
               
@@ -82,9 +158,9 @@ export default function Trabajos() {
 
                   </div>
                   <div className={style.trabajo_footer}>
-                    <Button variant="outline" onClick={()=>setActionOpen(!actionOpen)}>Acciones</Button>
-                      <div className={`${style.trabajo_actions} ${actionOpen? style.trabajo_actions_open: null }`}>
-                        <p>Terminado</p>
+                    <Button variant="outline" onClick={()=>openAndCloseActions(index)}>Acciones</Button>
+                      <div className={`${style.trabajo_actions} ${actionOpen == index? style.trabajo_actions_open: null }`}>
+                        <p onClick={()=>markAsClosed(data.id_doc,false)}>Marcar como terminado</p>
                         <p>Marcar como terminado y notificar cliente</p>
                         <p>Crear PDF</p>
                       </div>
@@ -105,7 +181,12 @@ export default function Trabajos() {
           !noData?
             <p>Loading...</p>
           :
-            <p>No data available</p>
+            noHayTrabajosDisponibles()
+          }
+          {checkIfEmpty(jobs) || jobs.length == 0?
+            null
+            :
+            noHayTrabajosDisponibles()
           }
           
               {/*  */}

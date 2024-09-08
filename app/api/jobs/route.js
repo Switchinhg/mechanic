@@ -1,4 +1,4 @@
-import { addDoc, collection, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { NextResponse } from "next/server";
 import { db } from "@/firebase/config";
 
@@ -17,7 +17,30 @@ export async function POST(req) {
             message: "Error creando el trabajo."
         })
     }
+}
+export async function PATCH(req){
+    const {id_doc , notify, campo} = await req.json()
+    try{
+        const jobDocRef = doc(db, "jobs", id_doc); 
+        switch(campo){
+            case "finished" :
+                await updateDoc(jobDocRef, {
+                    finished: true,
+                    completedAt: new Date() 
+                });
+            break
+        }
+        return NextResponse.json({
+            success: true,
+            message: "Trabajo Archivado correctamente."
+        })
 
+    }catch(err){
+        console.log(err)
 
-    
+        return NextResponse.json({
+            success: false,
+            message: "Error archivando trabajo."
+        })
+    }
 }

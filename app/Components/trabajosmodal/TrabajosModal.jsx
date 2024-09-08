@@ -78,9 +78,25 @@ export default function TrabajosModal({open,setOpen}) {
           description: resp.message,
           status: "success",
         });
+
+        setFirstName("")
+        setLastName("")
+        setEmail("")
+        setPhone("")
+        setMaker("")
+        setModel("")
+        setYear("")
+        setServiceType("")
+        setDescription("")
+        setEstimatedCost("")
+        setUrgentRepair(false)
+        setPreferredDate("")
+        setAdditionalNotes("")
+
         setOpen(false)
       }else{
         toast({
+          variant: "destructive",
           title: "Error al crear trabajo",
           description: resp.message,
           status: "error",
