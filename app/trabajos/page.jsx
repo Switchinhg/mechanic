@@ -12,9 +12,11 @@ export default function Trabajos() {
   const [actionOpen, setActionOpen] = useState() /* For actions on tag */
   const [open, setOpen] = useState(false) /* For modal of new job */
   const [jobs, setJobs] = useState([])
-  const [jobsFilter, setJobsFilter] = useState([])
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [noData, setNoData] = useState(false)
+
+  const [viewFinished , setViewFinished] = useState(false)
 
   const {user} = useUserContext()
 
@@ -75,6 +77,7 @@ export default function Trabajos() {
         status: "success",
       });
       getJobs()
+      setActionOpen()
     }else{
       toast({
         variant: "destructive",
@@ -102,44 +105,47 @@ export default function Trabajos() {
               </div>)
   }
   
-  const searchByWord = (e) =>{  
-    if(jobsFilter.length == 0){
-      setJobsFilter(jobs)
-    }
-    if(jobs.length > 0 && e.target.value){
-      for (const el of jobs) {
-        if(el.model.includes(e.target.value) || el.additionalNotes.includes(e.target.value) || el.description.includes(e.target.value) || el.email.includes(e.target.value) || el.firstName.includes(e.target.value) || el.lastName.includes(e.target.value) || el.maker.includes(e.target.value) || el.phone.includes(e.target.value) || el.year.includes(e.target.value)){
-          let a = jobsFilter.filter(e=> e == el)
-          console.log(a)
-          if(a.length > 0){
-            setJobs(a)
-          }else{
-            console.log("nope")
-          }
-        }else{
-          
-        }
-      }
-    }
-    if(e.target.value.length == 0){
-      
-    }
+  const searchByWord = (e) =>{
+    setSearchTerm(e.target.value.toLowerCase())
+    setActionOpen()
   }
-  
+  const limpiarFiltros = () =>{
+    setSearchTerm("")
+    setActionOpen()
+    setViewFinished(false)
+
+  }
+  const viewFinishedJobs = () =>{
+    setViewFinished(!viewFinished)
+  }
+  console.log()
   return (
     <div className={style.trabajos_wrap}>
         <SideBar />
         <div className={style.trabajos}>
           <div className={style.trabajos_header}>
             <div className="trabajos_btton"><Button variant="secondary"className="" onClick={setOpenModal}>Crear trabajo</Button> </div>
-            <div className="trabajos_btton"><Input variant="secondary" type="text" placeholder="Buscar por palabra" onChange={(e)=>searchByWord(e)} /></div>
-            <div className="trabajos_btton"><Button variant="secondary"className="">Ver trabajos finalizados</Button></div>
+            <div className="trabajos_btton"><Input variant="secondary" type="text" placeholder="Buscar por palabra" value={searchTerm}  onChange={(e)=>searchByWord(e)} /></div>
+            <div className="trabajos_btton"><Button variant="secondary"className={viewFinished?style.selectedButton: ""} onClick={viewFinishedJobs}>Ver trabajos finalizados</Button></div>
+            <div className="trabajos_btton"><Button variant="secondary"className="" onClick={limpiarFiltros}>Limpiar filtros</Button></div>
           </div>
           {jobs.length>0? 
-          jobs.map((data, index) => 
+          jobs.filter((job) => {
+            const fullName = `${job.firstName} ${job.lastName}`.toLowerCase();
+            const autoDetails = `${job.maker} ${job.model} ${job.year}`.toLowerCase();
+            const description = job.description.toLowerCase();
+
+            return (
+              fullName.includes(searchTerm) ||
+              autoDetails.includes(searchTerm) ||
+              description.includes(searchTerm) &&
+              job.finished == viewFinished
+            );
+          })
+          .map((data, index) => 
             <div key={index}>
 
-            {!data.finished?
+
               
               <div key={index} className={style.trabajos_fix_wrap}>
                 <div className={style.trabajo}>
@@ -169,9 +175,7 @@ export default function Trabajos() {
                 </div>
               </div>
 
-            :
-              null
-            }
+
 
           </div>
           )

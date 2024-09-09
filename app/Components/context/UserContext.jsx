@@ -71,6 +71,7 @@ export const UserProvider = ({children}) =>{
     const logout = async () =>{
         signOut(auth).then(() => {
             setLogged(false)
+            setUser(null)
             router.push('/');
         }).catch((error) => {
         });

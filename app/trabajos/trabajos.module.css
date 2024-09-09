@@ -99,3 +99,6 @@
     color: rgb(3, 186, 247);
     cursor: pointer;
 }
+.selectedButton{
+    border: solid rgba(61, 216, 236, 0.411) 1px;
+}
