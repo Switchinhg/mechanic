@@ -8,12 +8,15 @@ import { useUserContext } from '../Components/context/UserContext'
 import { toast } from '@/components/ui/use-toast'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Filter } from 'lucide-react'
 
 export default function Trabajos() {
   const [actionOpen, setActionOpen] = useState() /* For actions on tag */
   const [open, setOpen] = useState(false) /* For modal of new job */
   const [jobs, setJobs] = useState([])
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [modalFilter, setModalFilter] = useState(false)
 
   const [noData, setNoData] = useState(false)
 
@@ -23,6 +26,7 @@ export default function Trabajos() {
 
   const setOpenModal = () =>{
     setOpen(!open)
+    setModalFilter(false)
   }
 
   const getJobs = async () =>{
@@ -58,6 +62,14 @@ export default function Trabajos() {
       setActionOpen()
     }else{
       setActionOpen(index)
+    }
+  }
+  const closeModalFilter = (e) =>{
+    if(!e.target.className.includes(style.trabajos_header_mobile) && !e.target.className.includes(style.trabajos_header_mobile_wrap) && !e.target.classList.contains("trabajos_btton") && e.target.querySelector('input')){
+      setTimeout(() => {
+        
+      }, 500);
+      setModalFilter(false)      
     }
   }
 
@@ -114,12 +126,14 @@ export default function Trabajos() {
     setSearchTerm("")
     setActionOpen()
     setViewFinished(false)
+    setModalFilter(false)
 
   }
   const viewFinishedJobs = () =>{
     setViewFinished(!viewFinished)
+    setModalFilter(false)
   }
-  console.log()
+
   return (
     <div className={style.trabajos_wrap}>
         <SideBar />
@@ -130,6 +144,19 @@ export default function Trabajos() {
             <div className="trabajos_btton"><Button variant="secondary"className={viewFinished?style.selectedButton: ""} onClick={viewFinishedJobs}>Ver trabajos finalizados</Button></div>
             <div className="trabajos_btton"><Button variant="secondary"className="" onClick={limpiarFiltros}>Limpiar filtros</Button></div>
           </div>
+          <div className={style.trabajos_header_filter_icon}>
+            <div className="trabajos_btton"><Button variant="secondary"className="" onClick={()=>setModalFilter(!modalFilter)}> <Filter /> <p>Filtros</p></Button> </div>
+          </div>
+          <div className={`${style.trabajos_header_mobile_wrap} ${modalFilter? style.trabajos_header_mobile_wrap_open:""}`} onClick={(e)=>closeModalFilter(e)}>
+            <div className={`${style.trabajos_header_mobile} ${modalFilter? style.trabajos_header_mobile_wrap_open:""}`}>
+              <div className="trabajos_btton">Filtros </div>
+              <div className="trabajos_btton"><Button variant="secondary"className="" onClick={setOpenModal}>Crear trabajo</Button> </div>
+              <div className="trabajos_btton"><Input variant="secondary" type="text" placeholder="Buscar por palabra" value={searchTerm}  onChange={(e)=>searchByWord(e)} /></div>
+              <div className="trabajos_btton"><Button variant="secondary"className={viewFinished?style.selectedButton: ""} onClick={viewFinishedJobs}>Ver trabajos finalizados</Button></div>
+              <div className="trabajos_btton"><Button variant="secondary"className="" onClick={limpiarFiltros}>Limpiar filtros</Button></div>
+            </div>
+          </div>
+
           <h4 className={style.current_job_title}>{viewFinished? "Viendo trabajos finalizados":"Viendo trabajos en progreso"}</h4>
           <div className={style.show_job_wrap}>
             

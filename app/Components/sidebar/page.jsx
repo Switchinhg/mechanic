@@ -1,6 +1,7 @@
 import React from 'react'
 import style from './sidebar.module.css'
 import Link from 'next/link'
+import { Briefcase, CircleGauge, Wrench } from 'lucide-react'
 
 export default function SideBar() {
   return (
@@ -10,14 +11,14 @@ export default function SideBar() {
                 {/* <div>X</div> */}
             {/* </div> */}
             <div className={style.sidebar_body}>
-                <Link className={style.sidebar_link} href="/dashboard">Detalles</Link>
-                <Link className={style.sidebar_link} href="/trabajos">Trabajos</Link>
-                <Link className={style.sidebar_link} href="/settings">Configuración</Link>
+                <Link className={style.sidebar_link} href="/dashboard"> <CircleGauge /> <p>Detalles</p></Link>
+                <Link className={style.sidebar_link} href="/trabajos"> <Briefcase /> <p>Trabajos</p></Link>
+                <Link className={style.sidebar_link} href="/settings"> <Wrench /> <p>Configuración</p></Link>
                 {/* <div>X</div> */}
             </div>
 
             <div className={style.versioning}>
-              Version <span>{process.env.NEXT_PUBLIC_VERSION}</span>
+              V <span>{process.env.NEXT_PUBLIC_VERSION}</span>
             </div>
     </div>
   )

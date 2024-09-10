@@ -79,7 +79,7 @@ export default function Header() {
 
       </div>
       <div className={header.buttons}>
-      {logged?<Button variant="outline" onClick={()=>setAsAdmin()}>Set As Admin</Button>:null}
+      {/* {logged?<Button variant="outline" onClick={()=>setAsAdmin()}>Set As Admin</Button>:null} */}
         {logged?
         <>
         <p className={header.cart_qty_p} onMouseOver={()=>showCart()} onMouseLeave={()=>hideCart()}>{cart.length}</p>
