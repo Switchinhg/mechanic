@@ -23,6 +23,7 @@ import { useRouter } from 'next/navigation';
 import { useUserContext } from '../context/UserContext'
 import { usePathname } from 'next/navigation'
 import { useCartContext } from '../context/CartContext'
+import { Skeleton } from '@/components/ui/skeleton'
 
 
 
@@ -68,7 +69,12 @@ export default function Header() {
           <li><Link href={"/catalogo"} className={path == "/catalogo"? "link_active" :""}>Catalogo (testeo)</Link></li>
           
         </ul>
-      : null
+      : 
+      <div style={{display:'flex', gap:10}}>
+        <Skeleton className="h-4 w-[70px]" />
+        <Skeleton className="h-4 w-[70px]" />
+        <Skeleton className="h-4 w-[70px]" />
+      </div>
     }
 
       </div>

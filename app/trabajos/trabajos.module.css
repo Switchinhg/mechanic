@@ -24,7 +24,7 @@
     margin-top: 10px;
 }
 .trabajo{
-    width: 600px;
+    width: 500px;
     padding: 20px;
     background-color: var(--header_backg);
     border: solid 1px var(--border-color);
@@ -101,4 +101,17 @@
 }
 .selectedButton{
     border: solid rgba(61, 216, 236, 0.411) 1px;
+}
+.current_job_title{
+    text-align: center;
+    font-size: 25px;
+    margin: 10px;
+}
+.show_job_wrap{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
 }

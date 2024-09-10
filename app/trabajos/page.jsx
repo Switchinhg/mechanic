@@ -7,6 +7,7 @@ import TrabajosModal from '../Components/trabajosmodal/TrabajosModal'
 import { useUserContext } from '../Components/context/UserContext'
 import { toast } from '@/components/ui/use-toast'
 import { Input } from '@/components/ui/input'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function Trabajos() {
   const [actionOpen, setActionOpen] = useState() /* For actions on tag */
@@ -129,6 +130,9 @@ export default function Trabajos() {
             <div className="trabajos_btton"><Button variant="secondary"className={viewFinished?style.selectedButton: ""} onClick={viewFinishedJobs}>Ver trabajos finalizados</Button></div>
             <div className="trabajos_btton"><Button variant="secondary"className="" onClick={limpiarFiltros}>Limpiar filtros</Button></div>
           </div>
+          <h4 className={style.current_job_title}>{viewFinished? "Viendo trabajos finalizados":"Viendo trabajos en progreso"}</h4>
+          <div className={style.show_job_wrap}>
+            
           {jobs.length>0? 
           jobs.filter((job) => {
             const fullName = `${job.firstName} ${job.lastName}`.toLowerCase();
@@ -138,12 +142,14 @@ export default function Trabajos() {
             return (
               fullName.includes(searchTerm) ||
               autoDetails.includes(searchTerm) ||
-              description.includes(searchTerm) &&
-              job.finished == viewFinished
+              description.includes(searchTerm) 
             );
-          })
-          .map((data, index) => 
-            <div key={index}>
+          }).filter(job=>{
+            return(
+              job.finished == viewFinished
+            )
+          }).map((data, index) => 
+            <div key={index} >
 
 
               
@@ -183,19 +189,24 @@ export default function Trabajos() {
           :
           
           !noData?
-            <p>Loading...</p>
+          <div className={`${style.show_job_wrap } `} >
+            <Skeleton className="h-[212px] w-[600px] rounded-xl" />
+            <Skeleton className="h-[212px] w-[600px] rounded-xl" />
+            <Skeleton className="h-[212px] w-[600px] rounded-xl" />
+          </div>
           :
             noHayTrabajosDisponibles()
           }
           {checkIfEmpty(jobs) || jobs.length == 0?
             null
             :
-            noHayTrabajosDisponibles()
+            viewFinished? null :noHayTrabajosDisponibles()
           }
           
               {/*  */}
 
               <TrabajosModal open={open} setOpen={setOpen}/>
+        </div>
         </div>
     </div>
   )
