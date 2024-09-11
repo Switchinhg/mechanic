@@ -1,39 +1,25 @@
-import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, collection, getDoc, getDocs, query, where } from "firebase/firestore";
 import { NextResponse } from "next/server";
 import { db } from "@/firebase/config";
 
+/* Create a new Store */
 export async function POST(request) {
 
-    const {email} = await request.json()
-    
-    const q = query(collection(db, "users"), where("Email", "==", email));
-
-    const querySapshot = await getDocs(q)
- 
-    if (!querySapshot.empty){
-        const doc = querySapshot.docs[0].data()
-        const qStores = query(collection(db, "stores"), where("owner", "==", email));
-        const qStoreSnapshot = await getDocs(qStores)
-
-        if(qStoreSnapshot.empty){
-            //tiene stores
-            return NextResponse.json({
-                success:true,
-                message: "Puede crear tienda"
-            })
-        }else{
-            //no tiene stores
-            return NextResponse.json({
-                success:false,
-                message: "No puede crear tienda"
-            })
-        }
-
-    }else{
+    const StoreData = await request.json();
+    console.log("hola")
+    try{
+        console.log(StoreData)
+        const collectionJobs = collection(db, "stores");
+        await addDoc(collectionJobs, StoreData);
+        return NextResponse.json({
+            success:true,
+            message: "Tienda creada correctamente."
+        })
+    }catch(err){
+        console.log(StoreData)
         return NextResponse.json({
             success:false,
-            message: "No se encontro usuario"
+            message: "Error creando la tienda."
         })
-
     }
 }

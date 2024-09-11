@@ -1,0 +1,34 @@
+.modal_back{
+        background-color: var(--header_backg);
+}
+.modal_test{
+    position: fixed;
+    top: 400px;
+    width: 360px;
+    left: 50vw;
+}
+
+@media only screen and (min-width: 470px) {
+    .modal_test{
+        width: 460px;
+    }
+}
+@media only screen and (max-width: 470px) {
+    .query_style{
+        flex-direction: column;
+        display: flex;
+        align-items: start;
+    }
+}
+@media only screen and (min-width: 570px) {
+    .modal_test{
+        width: 560px;
+    }
+
+}
+@media only screen and (min-width: 720px) {
+    .modal_test{
+        width: 700px;
+    }
+
+}
