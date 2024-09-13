@@ -6,7 +6,6 @@ import { db } from "@/firebase/config";
 export async function POST(request) {
 
     const StoreData = await request.json();
-    console.log("hola")
     try{
         console.log(StoreData)
         const collectionJobs = collection(db, "stores");

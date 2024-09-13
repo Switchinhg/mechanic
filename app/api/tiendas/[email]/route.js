@@ -20,8 +20,7 @@ export async function GET(request, {params}) {
             ...doc.data()  // Spread the rest of the document data
         }));
 
-        console.log(docs)
-
+console.log(docs[0])
         if(qStoreSnapshot.empty){
             return NextResponse.json({
             //no tiene stores

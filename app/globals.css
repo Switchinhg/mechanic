@@ -33,6 +33,7 @@
     --background: 0 0% 100%;
     --header_backg: #FFFFFF;
     --footer_backg:#dfdfdf;
+    --store_header:#1d1d1d;
     --border-color: #EFEFEF;
     --subtext: #91989F;
 
@@ -69,6 +70,7 @@
     --background: #1B1D20;
     --header_backg: #1B1D20;
     --footer_backg:#464646;
+    --store_header:#1d1d1d;
     --border-color: #393E46;
     --subtext: #91989F;
 

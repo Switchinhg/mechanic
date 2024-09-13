@@ -3,6 +3,7 @@
     height: fit-content;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .zero_stores{
     width: 1000px;
@@ -21,4 +22,94 @@
 }
 .zero_stores a{
     color: rgb(3, 186, 247);
+}
+.store_config{
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.store_config h1{
+    padding: 10px 0;
+}
+.store_options{
+    background-color: var(--footer_backg);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 5px 0;
+}
+.store_options button{
+    background-color: var(--store_header);
+}
+
+.store_config_preview{
+    width: 700px;
+    height: auto;
+    background-color: var(--store_header);
+    padding: 30px;
+    border-radius: 10px;
+    border:solid 1px var(--border-color)
+}
+.store_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.rating{
+    display: flex;
+    gap: 10px;
+}
+.img_shop{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--store_header);
+    border: solid 1px var(--border-color);
+}
+.store_socials{
+    display: flex;
+    flex-direction: column;
+}
+.save_button{
+    margin-top:20px;
+}
+.contact{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 50%;
+}
+.contact h2{
+    font-size: 25px;
+}
+.area{
+    height: 200px;
+    width: 50%;
+    background-color: red;
+}
+.contact_map_wrap{
+    margin: 50px 0 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.services{
+    margin: 20px 0;
+    padding: 15px 10px;
+    border: solid 1px var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.services_list{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
