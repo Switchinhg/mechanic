@@ -52,42 +52,42 @@ export async function GET(request) {
 
 }
 
-export async function POST(req) {
-    const jobData = await req.json();
+// export async function POST(req) {
+//     const jobData = await req.json();
 
-    console.log(jobData)
-    try{
-        const docRef = doc(db, "stores");
+//     console.log(jobData)
+//     try{
+//         const docRef = doc(db, "stores");
 
-    //     // Create a query to find the document with the specific owner
-    //     const q = query(colRef, where("owner", "==", ""));
+//     //     // Create a query to find the document with the specific owner
+//     //     const q = query(colRef, where("owner", "==", ""));
 
-    //     // Get the documents matching the query
-    //     const querySnapshot = await getDocs(q);
+//     //     // Get the documents matching the query
+//     //     const querySnapshot = await getDocs(q);
 
-    // // Check if the document exists
-    //     if (!querySnapshot.empty) {
-    //         querySnapshot.forEach(async (doc) => {
-    //         // Get document reference by ID
-    //         const docRef = doc.ref;
+//     // // Check if the document exists
+//     //     if (!querySnapshot.empty) {
+//     //         querySnapshot.forEach(async (doc) => {
+//     //         // Get document reference by ID
+//     //         const docRef = doc.ref;
     
-    //         // Update the array in the document
-    //         await updateDoc(docRef, {
-    //             yourArrayField: arrayUnion(newItem),
-    //         });
+//     //         // Update the array in the document
+//     //         await updateDoc(docRef, {
+//     //             yourArrayField: arrayUnion(newItem),
+//     //         });
     
-    //         console.log(`Document ${doc.id} successfully updated!`);
-    //         });
-    //     }
+//     //         console.log(`Document ${doc.id} successfully updated!`);
+//     //         });
+//     //     }
 
-        return NextResponse.json({
-            success:true,
-            message: "Trabajo creado correctamente."
-        })
-    }catch(err){
-        return NextResponse.json({
-            success:false,
-            message: "Error creando el trabajo."
-        })
-    }
-}
+//         return NextResponse.json({
+//             success:true,
+//             message: "Trabajo creado correctamente."
+//         })
+//     }catch(err){
+//         return NextResponse.json({
+//             success:false,
+//             message: "Error creando el trabajo."
+//         })
+//     }
+// }
