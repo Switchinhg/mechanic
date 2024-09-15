@@ -8,8 +8,13 @@ import { Button } from '@/components/ui/button'
 import StoreModal from '../Components/create-store-modal/StoreModal'
 import Rating from '../Components/ShopRating/Rating'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Mail } from "lucide-react"
+import { AlignHorizontalDistributeCenter, BatteryCharging, Brush, Car, CheckSquare, Clock, Cpu, Disc, DollarSign, Facebook, FacebookIcon, Fuel, Hammer, Instagram, Linkedin, Mail, MapPin, MonitorSmartphone, Package, Phone, Star, Thermometer, Truck, Twitter, Wrench, Zap } from "lucide-react"
 import { Checkbox } from '@/components/ui/checkbox'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import Image from 'next/image'
+
+import placeholder_image from "../../public/placeholder_shop.png"
+import ModalAddService from '../Components/ModalAddService/ModalAddService'
 
 export default /* async */ function page() {
 
@@ -17,6 +22,7 @@ export default /* async */ function page() {
     const [stores, setStores] = useState()
     const [modalCreateStore, setModalCreateStore] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [addService, setAddService] = useState(false)
 
 
     const getstores = async (email)=>{
@@ -54,9 +60,10 @@ export default /* async */ function page() {
                     <p>Click <Button variant={"outline"} onClick={()=>setModalCreateStore(true)}>Aquí</Button> para crear una!</p>
                 </div>
                 :
-                <div className={store.store_config}>
-                    <div className={store.store_options}>
-                        <Button variant={"outline"}>Agregar Servicio</Button>
+                <div className="container mx-auto p-4 space-y-6">
+                {/* Header Section */}
+                <div className={store.store_options}>
+                        <Button variant={"outline"} onClick={()=>setAddService(true)}>Agregar Servicio</Button>
                         <Button variant={"outline"}>Quitar Servicio</Button>
                         <Select>
                             <SelectTrigger className="w-[180px]">
@@ -73,75 +80,259 @@ export default /* async */ function page() {
                         </Select>
 
                     </div>
-                    <h1>Mostrando vista previa</h1>
-                    <div className={store.store_config_preview}>
-                        <div className={store.store_header}>
-                            <h2>{stores.data[0].store}</h2> 
+                <div className={` flex flex-col md:flex-row items-center gap-6  p-6 rounded-lg shadow-lg ${store.bg}`}>
 
-                            <div className={store.img_shop}>
-                                <img src="" alt="" />
-                            </div>
-                            <div className={store.rating}><p>msPuntaje</p> <span><Rating sales={1} reviews={{1:2,2:1,3:5,4:20,5:17}} responseTimeAvg={240} createdAt={stores.data[0].createdAt}/></span></div>
+                  <Image
+                    src={placeholder_image}
+                    alt={`${stores.data[0].store } Logo`}
+                    width={150}
+                    height={150}
+                    className="rounded-full border bg-white"
+                  />
+                  <div className="text-center md:text-left space-y-2">
+                    <h1 className="text-3xl font-bold">{stores.data[0].store } </h1>
+                    <div className="flex items-center justify-center md:justify-start gap-2">
+                      {/* <Star className="w-5 h-5 fill-yellow-400 stroke-yellow-400" /> */}
+                      <span className="font-semibold"><Rating  /> </span>
+                      {/* <span className="text-muted-foreground">(256 reviews)</span> */}
+                    </div>
+                    <div className="flex items-center justify-center md:justify-start gap-2 text-muted-foreground">
+                      <MapPin className="w-4 h-4" />
+                      <span>{stores.data[0].address}</span>
+                    </div>
+                  </div>
+                </div>
+          
+                {/* Social Media Links */}
+                {/* <div className="flex justify-center space-x-4">
+                  <a href="#" className="text-primary hover:text-primary-foreground transition-colors">
+                    <FacebookIcon className="w-6 h-6" />
+                    <span className="sr-only">Facebook</span>
+                  </a>
+                  <a href="#" className="text-primary hover:text-primary-foreground transition-colors">
+                    <Twitter className="w-6 h-6" />
+                    <span className="sr-only">Twitter</span>
+                  </a>
+                  <a href="#" className="text-primary hover:text-primary-foreground transition-colors">
+                    <Instagram className="w-6 h-6" />
+                    <span className="sr-only">Instagram</span>
+                  </a>
+                  <a href="#" className="text-primary hover:text-primary-foreground transition-colors">
+                    <Linkedin className="w-6 h-6" />
+                    <span className="sr-only">LinkedIn</span>
+                  </a>
+                </div> */}
+          
+
+          
+                {/* Map Section */}
+                {/* <Card>
+                  <CardHeader>
+                    <CardTitle>Location</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className={`${store.aspect} bg-muted rounded-md flex items-center justify-center `}>
+                      <MapPin className="w-12 h-12 text-primary" />
+                      <span className="ml-2 text-lg font-semibold">Map Placeholder</span>
+                    </div>
+                  </CardContent>
+                </Card> */}
+          
+                {/* Services Section */}
+                <Card className={`${store.bg}`}>
+                  <CardHeader>
+                    <CardTitle>Nuestros servicios</CardTitle>
+                  </CardHeader>
+                  <CardContent className="grid gap-4">
+                    <div className="flex items-center gap-4">
+                            <Wrench className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Mecánica general</h3>
+                            <p className="text-sm text-muted-foreground">Servicios integrales de reparación automotriz</p>
                         </div>
-                        <div className={store.store_socials}>
-                        </div>
-
-                        <div className={store.contact_map_wrap}>
-                            <div className={store.area}>
-                                Map es para una actualizacion futura
-                            </div>
-                            <div className={store.contact}>
-                                <h2>Contacto</h2>
-                                <Button > 
-                                    <Mail className="mr-2 h-4 w-4" /> Enviar Mensaje
-                                </Button>
-                            </div>
-
-                        </div>
-
-                        <div className={store.services}>
-
-                            <h2>Services</h2>
-
-                                <div className={store.services_list}>
-                                
-                                <div className="items-top flex space-x-2">
-                                    <Checkbox id="terms1" />
-                                    <div className="grid gap-1.5 leading-none">
-                                        <label
-                                        htmlFor="terms1"
-                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                        >
-                                            Accept terms and conditions
-                                            <p className="text-sm text-muted-foreground">
-                                                You agree to our Terms of Service and Privacy Policy.
-                                            </p>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div className="items-top flex space-x-2">
-                                    <Checkbox id="terms1" />
-                                    <div className="grid gap-1.5 leading-none">
-                                        <label
-                                        htmlFor="terms1"
-                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                        >
-                                            Accept terms and conditions
-                                            <p className="text-sm text-muted-foreground">
-                                                You agree to our Terms of Service and Privacy Policy.
-                                            </p>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>      
-
-                        </div>
-                        
-
                     </div>
 
-                    <Button className={store.save_button}>Guardar Perfil</Button>
+                        <div className="flex items-center gap-4">
+                        <Brush className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Chapa y pintura</h3>
+                            <p className="text-sm text-muted-foreground">Restauración y retoque estético del vehículo</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <Fuel className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Cambio de aceite y filtros</h3>
+                            <p className="text-sm text-muted-foreground">Mantenimiento preventivo para el motor</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <AlignHorizontalDistributeCenter className="w-8 h-8 text-primary"/>
+                        <div>
+                            <h3 className="font-semibold">Alineación y balanceo</h3>
+                            <p className="text-sm text-muted-foreground">Ajuste preciso para una conducción segura</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <Disc className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Reparación de frenos</h3>
+                            <p className="text-sm text-muted-foreground">Optimización del sistema de frenado</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <Car className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Revisión y cambio de llantas</h3>
+                            <p className="text-sm text-muted-foreground">Evaluación y sustitución de neumáticos</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <Cpu className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Diagnóstico y reparación de motor</h3>
+                            <p className="text-sm text-muted-foreground">Detección y solución de problemas del motor</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <Wrench className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Reparación de suspensión</h3>
+                            <p className="text-sm text-muted-foreground">Mejora de la estabilidad y confort de manejo</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <Thermometer className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Aire acondicionado y climatización</h3>
+                            <p className="text-sm text-muted-foreground">Reparación y recarga del sistema de aire</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <Zap className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Electricidad automotriz</h3>
+                            <p className="text-sm text-muted-foreground">Solución de fallas eléctricas en el vehículo</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <Wrench className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Reparación de transmisión</h3>
+                            <p className="text-sm text-muted-foreground">Reparación y ajuste de la caja de cambios</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <BatteryCharging className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Cambio de batería</h3>
+                            <p className="text-sm text-muted-foreground">Sustitución rápida para un encendido confiable</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <MonitorSmartphone className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Escaneo y diagnóstico computarizado</h3>
+                            <p className="text-sm text-muted-foreground">Análisis digital para detectar fallas</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <Wrench className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Afinación de motor</h3>
+                            <p className="text-sm text-muted-foreground">Mejora del rendimiento y eficiencia del motor</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <Wrench className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Reparación de parabrisas</h3>
+                            <p className="text-sm text-muted-foreground">Arreglo de grietas y sustitución de cristales</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <Package className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Instalación de accesorios</h3>
+                            <p className="text-sm text-muted-foreground">Colocación de dispositivos y personalización</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <CheckSquare className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Revisión técnica pre-compra</h3>
+                            <p className="text-sm text-muted-foreground">Inspección detallada antes de la compra</p>
+                        </div>
+                        </div>
+
+                        <div className="flex items-center gap-4">
+                        <Truck className="w-8 h-8 text-primary" />
+                        <div>
+                            <h3 className="font-semibold">Servicio de grúa</h3>
+                            <p className="text-sm text-muted-foreground">Asistencia en carretera y traslado de vehículos</p>
+                        </div>
+                        </div>
+
+                  </CardContent>
+                </Card>
+          
+                {/* Additional Information */}
+                <Card className={`${store.bg}`}>  
+                  <CardHeader>
+                    <CardTitle>Información del taller</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <Clock className="w-5 h-5 text-primary" />
+                      <div>
+                        <h3 className="font-semibold">Business Hours</h3>
+                        <p className="text-sm text-muted-foreground">Mon-Fri: 8AM-6PM, Sat: 9AM-4PM, Sun: Closed</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <Phone className="w-5 h-5 text-primary" />
+                      <div>
+                        <h3 className="font-semibold">Número</h3>
+                        <p className="text-sm text-muted-foreground">{stores.data[0].phone}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <DollarSign className="w-5 h-5 text-primary" />
+                      <div>
+                        <h3 className="font-semibold">Payment Methods</h3>
+                        <p className="text-sm text-muted-foreground">Cash, Credit Cards, Debit Cards, Financing Available</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Contact and On-Site Assistance Buttons */}
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button size="lg" className="w-full sm:w-auto">
+                    <Mail className="w-4 h-4 mr-2" />
+                    Contact Shop
+                  </Button>
+                  {/* <Button size="lg" variant="outline" className="w-full sm:w-auto">
+                    <Wrench className="w-4 h-4 mr-2" />
+                    Request On-Site Assistance
+                  </Button> */}
                 </div>
+              </div>
             :
                 <>Loading...</>
         }
@@ -151,6 +342,9 @@ export default /* async */ function page() {
         :   
             <></>
         }
+        {addService && (
+        <ModalAddService open={addService} setOpen={setAddService}/> 
+      )}
     </div>
   )
 }

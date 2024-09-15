@@ -113,3 +113,26 @@
     flex-direction: column;
     gap: 15px;
 }
+
+.bg{
+    background-color: var(--header_backg);
+    border: solid 1px var(--border-color);
+}
+
+
+.aspect{
+    aspect-ratio: 20 / 7;
+}
+
+@media screen and (max-width:772px) {
+    
+    .aspect{
+        aspect-ratio: 20 / 10;
+    }
+}
+@media screen and (max-width:472px) {
+    
+    .aspect{
+        aspect-ratio: 20 / 20;
+    }
+}
