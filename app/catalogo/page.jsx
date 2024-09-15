@@ -7,12 +7,6 @@ export default async function Page() {
   const products = await request.json();
 
 
-  console.log(products)
-  console.log(typeof products)
-
-  console.log(request)
-  console.log(typeof request)
-
   if (!products || products.length === 0) {
     return <h1>No Products Found</h1>;
   }

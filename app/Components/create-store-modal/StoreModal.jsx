@@ -88,9 +88,9 @@ export default function StoreModal({open, setOpen}) {
     </DialogTrigger>
     <DialogContent className={`w-full max-w-3xl max-h-[90vh] sm:max-h-[80vh] ${style.modal_back} ${style.modal_test}`}>
         <DialogHeader>
-          <DialogTitle>Create New Store</DialogTitle>
+          <DialogTitle>Crear nueva página de taller</DialogTitle>
           <DialogDescription>
-            Enter the details for your new car shop store location.
+            Ingrese los detalles de tu taller. 
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
@@ -103,13 +103,13 @@ export default function StoreModal({open, setOpen}) {
             </div>
             <div className={`grid grid-cols-4 items-center gap-4 ${style.query_style}`}>
               <Label htmlFor="address" className="text-right">
-                Address
+                Dirección
               </Label>
               <Input id="address" className="col-span-3" required value={address} onChange={e=>setAddress(e.target.value)}/>
             </div>
             <div className={`grid grid-cols-4 items-center gap-4 ${style.query_style}`}>
               <Label htmlFor="phone" className="text-right">
-                Phone
+                Teléfono
               </Label>
               <Input id="phone" type="tel" className="col-span-3" required value={phone} onChange={e=>setPhone(e.target.value)}/>
             </div>
@@ -117,19 +117,19 @@ export default function StoreModal({open, setOpen}) {
               <Label htmlFor="email" className="text-right">
                 Email
               </Label>
-              <Input id="email" type="email" className="col-span-3" required value={email} onChange={e=>setEmail(e.target.value)}/>
+              <Input id="email" type="email" className="col-span-3" disabled value={user?.email} />
             </div>
             <div className={`grid grid-cols-4 items-start gap-4 ${style.query_style}`}>
-              <Label className="text-right pt-2">Services</Label>
+              <Label className="text-right pt-2">Servicios</Label>
               <ScrollArea className="col-span-3 h-[100px] w-[100%] rounded border p-4">
                 <div className="space-y-2">
-    
+                    Se agregan luego!
                 </div>
               </ScrollArea>
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Create Store</Button>
+            <Button type="submit">Crear perfil</Button>
           </DialogFooter>
         </form>
       </DialogContent>

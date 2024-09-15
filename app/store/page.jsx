@@ -47,7 +47,6 @@ export default /* async */ function page() {
         }
       },[modalCreateStore])
 
-    
   return (
     <div className={store.wrapper}>
         {/* <SideBar /> */}

@@ -6,7 +6,7 @@ export async function GET(request, {params}) {
 
     const email = params.email
     
-    const q = query(collection(db, "users"), where("Email", "==", email));
+    const q = query(collection(db, "users"), where("email", "==", email));
 
     const querySapshot = await getDocs(q)
  
@@ -20,7 +20,6 @@ export async function GET(request, {params}) {
             ...doc.data()  // Spread the rest of the document data
         }));
 
-console.log(docs[0])
         if(qStoreSnapshot.empty){
             return NextResponse.json({
             //no tiene stores

@@ -60,7 +60,7 @@ export default function Header() {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <li className={path == "/store"? "link_active unavailable":"unavailable"}><Link href={"/store"}>Crear Tienda</Link></li></TooltipTrigger>
+                <li className={path == "/store"? "link_active unavailable":"unavailable"}><Link href={"/store"}>Perfil de taller</Link></li></TooltipTrigger>
               <TooltipContent>
                 <p>Under Development</p>
               </TooltipContent>
