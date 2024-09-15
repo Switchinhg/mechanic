@@ -2,7 +2,7 @@ import { collection, getDocs, query } from "firebase/firestore";
 import { NextResponse } from "next/server";
 import { db } from "@/firebase/config";
 
-export async function GET(request, {params}) {
+export async function GET(request) {
 
     //todo secure endpoint 
     /* Get the collection product (all products) */
