@@ -6,7 +6,7 @@ import { Suspense } from 'react'
 
 export default async function page() {
   // TODO Change fetch link to env !!
-  let request = await fetch("http://localhost:3000/api/productos")
+  let request = await fetch(process.env.NEXT_PUBLIC_URL + "/api/productos")
   let products = await request.json()
   console.log(products)
 

@@ -26,7 +26,7 @@ export default /* async */ function page() {
 
 
     const getstores = async (email)=>{
-        let request = await fetch("http://localhost:3000/api/tiendas/"+ email,{
+        let request = await fetch(process.env.NEXT_PUBLIC_URL + "/api/tiendas/"+ email,{
             method:"GET",
         }
     )

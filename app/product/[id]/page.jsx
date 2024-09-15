@@ -17,7 +17,7 @@ export default function page({params}) {
   // console.log(product)
   useEffect(() => {
     const fetProduct = async () =>{
-      let request = await fetch("http://localhost:3000/api/productos/"+ params.id)
+      let request = await fetch(process.env.NEXT_PUBLIC_URL + "/api/productos/"+ params.id)
       let product = await request.json()
       setProd(product)
     }
