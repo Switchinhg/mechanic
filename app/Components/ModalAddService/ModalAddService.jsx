@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger,DialogFooter } from "@/components/ui/dialog"
-import { AlignHorizontalDistributeCenter, BatteryCharging, Brush, Car, CheckSquare, Clock, Cpu, Disc, DollarSign, Facebook, FacebookIcon, Fuel, Hammer, Instagram, Linkedin, Mail, MapPin, MonitorSmartphone, Package, Phone, Star, Thermometer, Truck, Twitter, Wrench, Zap } from "lucide-react"
+import { AlignHorizontalDistributeCenter, BatteryCharging, Brush, Car, Check, CheckSquare, Clock, Cpu, Disc, DollarSign, Facebook, FacebookIcon, Fuel, Hammer, Instagram, Linkedin, Mail, MapPin, MonitorSmartphone, Package, Phone, Star, Thermometer, Truck, Twitter, Wrench, X, Zap } from "lucide-react"
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -16,20 +16,19 @@ import {
   } from "@/components/ui/select"
 
   import store from './store.module.css'
+  import { toast } from "@/components/ui/use-toast"
 
  
 
 
-export default function ModalAddService({open, setOpen, services}) {
+export default function ModalAddService({open, setOpen, services , owner}) {
     const [newServicios, setNewServicios] = useState([])
     const [servicios, setServicios] = useState([])
     
     /* Get Services */
 
 
-    const AddNewService = async (e) =>{
-       /* Post to add services */
-    }
+
 
     const getServices = async () =>{
         let request = await fetch( process.env.NEXT_PUBLIC_URL + "/api/servicios" )
@@ -39,9 +38,28 @@ export default function ModalAddService({open, setOpen, services}) {
             setServicios(resp.data)
           }
         }
+    const saveServices = async () =>{
+        let request = await fetch( process.env.NEXT_PUBLIC_URL + "/api/servicios",{
+          method:"PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+            body: JSON.stringify({ owner, services:newServicios }),
+            
+          })
+          let resp = await request.json()
+      
+          if(resp.success){
+            toast({
+              title: "Servicios guardados",
+              description: resp.message,
+              status: "success",
+            });
+            setOpen(false)
+          }
+        }
 
         const changeAddService = (e) =>{
-            console.log("Hola")
             const hasId = newServicios.some((servicio) => servicio.id === e);
             const nombreServicio = servicios.find((servicio) => servicio.id === e);
             if(!hasId){
@@ -64,8 +82,13 @@ export default function ModalAddService({open, setOpen, services}) {
           Tiene {newServicios.length} servicios guardados.
           <div style={{paddingTop:10}}>
             {newServicios.map((el, index)=>
-                <div key={index} >
+                <div key={index} className={store.service_price}>
                     <p style={{paddingLeft:10}}>- {el.name}</p>
+                    <Label htmlFor="phone" className="text-right">
+                      precio estimado
+                    </Label>
+                    <Input id={`price${el.id}`} type="number" className="col-span-3" required value={el.price} onChange={e=>el.price = Number(e.target.value)}/>
+            
                 </div>
             )}
           </div>
@@ -78,8 +101,8 @@ export default function ModalAddService({open, setOpen, services}) {
             <SelectContent>
                 <SelectGroup>
                 
-                    {servicios.map((el, index) =>
-                        <SelectItem key={index} value={el.id}> {newServicios.some((servicio) => servicio.id === el.id)?"V":"N"} - {el.name}</SelectItem>
+                    {servicios?.map((el, index) =>
+                        <SelectItem key={index} value={el.id}> <p style={{display:'flex',gap:10}}>{newServicios.some((servicio) => servicio.id === el.id)? <Check />:<X />} -  {el.name}</p></SelectItem>
                     )}
                     {servicios.length==0?"Cargando...": null}
                 </SelectGroup>
@@ -89,7 +112,7 @@ export default function ModalAddService({open, setOpen, services}) {
 
 
       <DialogFooter>
-        <Button onClick={AddNewService}>Save changes</Button>
+        <Button onClick={saveServices}>Save changes</Button>
       </DialogFooter>
     </DialogContent>
   </Dialog>

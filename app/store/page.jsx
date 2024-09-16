@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import StoreModal from '../Components/create-store-modal/StoreModal'
 import Rating from '../Components/ShopRating/Rating'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { AlignHorizontalDistributeCenter, BatteryCharging, Brush, Car, CheckSquare, Clock, Cpu, Disc, DollarSign, Facebook, FacebookIcon, Fuel, Hammer, Instagram, Linkedin, Mail, MapPin, MonitorSmartphone, Package, Phone, Star, Thermometer, Truck, Twitter, Wrench, Zap } from "lucide-react"
+import { AlignHorizontalDistributeCenter, BatteryCharging, Brush, Car, CheckSquare, Clock, Cpu, Disc, DollarSign, Facebook, FacebookIcon, Fuel, Hammer, Instagram, Linkedin, Mail, MapPin, MonitorSmartphone, Package, Phone, Rocket, Star, Thermometer, Truck, Twitter, Wrench, Zap } from "lucide-react"
 import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Image from 'next/image'
@@ -23,20 +23,35 @@ export default /* async */ function page() {
     const [modalCreateStore, setModalCreateStore] = useState(false)
     const [loading, setLoading] = useState(true)
     const [addService, setAddService] = useState(false)
+    const [AllService, setAllService] = useState([])
 
 
+    
+    const getAllServices = async () =>{
+      let request = await fetch(process.env.NEXT_PUBLIC_URL + "/api/servicios/",{
+          method:"GET",
+      })
+      let services = await request.json()
+      if(services.success){
+        setAllService(services.data)
+        setLoading(false)
+      }else{
+
+      }
+      
+    }
     const getstores = async (email)=>{
         let request = await fetch(process.env.NEXT_PUBLIC_URL + "/api/tiendas/"+ email,{
             method:"GET",
-        }
-    )
-    let stores = await request.json()
-    setStores(stores)
-    setLoading(false)
-}
+        })
+        let stores = await request.json()
+        setStores(stores)
+        setLoading(false)
+    }
     useEffect(() => {
         if(user?.email){
             getstores(user?.email)
+            getAllServices()
         }
     }, [user])
 
@@ -45,7 +60,12 @@ export default /* async */ function page() {
             getstores(user?.email)
             setLoading(true)
         }
-      },[modalCreateStore])
+        if(user?.email && !addService){
+            getstores(user?.email)
+            setLoading(true)
+        }
+      },[modalCreateStore, addService])
+
 
   return (
     <div className={store.wrapper}>
@@ -143,14 +163,24 @@ export default /* async */ function page() {
                     <CardTitle>Nuestros servicios</CardTitle>
                   </CardHeader>
                   <CardContent className="grid gap-4">
-                    <div className="flex items-center gap-4">
+                      {stores.data[0].services?.map((el, index)=>
+                        <div className="flex items-center justify-between gap-4 w-100 border-b-4 border-gray pb-5">
+                          <div className="flex items-center gap-4">
                             <Wrench className="w-8 h-8 text-primary" />
-                        <div>
-                            <h3 className="font-semibold">Mecánica general</h3>
-                            <p className="text-sm text-muted-foreground">Servicios integrales de reparación automotriz</p>
+                            <div>
+                                <h3 className="font-semibold"> {AllService.length > 0?AllService?.filter(e=>e.id == el.id)[0].name:""}</h3>
+                                <p className="text-sm text-muted-foreground">{AllService.length > 0?AllService?.filter(e=>e.id == el.id)[0].desc:""}</p>
+                            </div>
+                          </div>
+                          <div>
+                              <p className="text-sm">Precios entre {el.price - 50} y {el.price + 200}</p>
+                          </div>
                         </div>
-                    </div>
-
+                      )}
+                      {stores.data[0].services?
+                      null:
+                      <p>En este perfil todavia no ha configurado ningun servicio.</p>}
+{/* 
                         <div className="flex items-center gap-4">
                         <Brush className="w-8 h-8 text-primary" />
                         <div>
@@ -285,7 +315,7 @@ export default /* async */ function page() {
                             <h3 className="font-semibold">Servicio de grúa</h3>
                             <p className="text-sm text-muted-foreground">Asistencia en carretera y traslado de vehículos</p>
                         </div>
-                        </div>
+                        </div> */}
 
                   </CardContent>
                 </Card>
@@ -323,8 +353,9 @@ export default /* async */ function page() {
                 {/* Contact and On-Site Assistance Buttons */}
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <Button size="lg" className="w-full sm:w-auto">
-                    <Mail className="w-4 h-4 mr-2" />
-                    Contact Shop
+                    <Rocket className="w-4 h-4 mr-2"/>
+                    {/* <Mail  /> */}
+                    Publicar tienda
                   </Button>
                   {/* <Button size="lg" variant="outline" className="w-full sm:w-auto">
                     <Wrench className="w-4 h-4 mr-2" />
@@ -342,7 +373,7 @@ export default /* async */ function page() {
             <></>
         }
         {addService && (
-        <ModalAddService open={addService} setOpen={setAddService}/> 
+        <ModalAddService open={addService} setOpen={setAddService} owner={stores.data[0].owner}/> 
       )}
     </div>
   )

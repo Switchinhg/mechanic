@@ -2,3 +2,7 @@
     background-color: var(--header_backg);
     border: solid 1px var(--border-color);
 }
+.service_price{
+    display: flex;
+    gap: 10px;
+}

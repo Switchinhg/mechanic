@@ -52,42 +52,37 @@ export async function GET(request) {
 
 }
 
-// export async function POST(req) {
-//     const jobData = await req.json();
+export async function PATCH(req) {
+    const {owner , services} = await req.json()
+    try {
 
-//     console.log(jobData)
-//     try{
-//         const docRef = doc(db, "stores");
+        console.log(owner)
+        console.log(services)
 
-//     //     // Create a query to find the document with the specific owner
-//     //     const q = query(colRef, where("owner", "==", ""));
+        const q = query(collection(db, "stores"), where("owner", "==", owner));
+        const querySnapshot = await getDocs(q);
 
-//     //     // Get the documents matching the query
-//     //     const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+            console.log("No se encontró un documento con ese email.");
+            return;
+          }
+      
+              // Asumimos que el email es único y solo hay un documento
+        const document = querySnapshot.docs[0];
+        
+        const docRef = doc(db, "stores", document.id);
+        await updateDoc(docRef, {
+          services // El nuevo array de servicios
+        });
 
-//     // // Check if the document exists
-//     //     if (!querySnapshot.empty) {
-//     //         querySnapshot.forEach(async (doc) => {
-//     //         // Get document reference by ID
-//     //         const docRef = doc.ref;
-    
-//     //         // Update the array in the document
-//     //         await updateDoc(docRef, {
-//     //             yourArrayField: arrayUnion(newItem),
-//     //         });
-    
-//     //         console.log(`Document ${doc.id} successfully updated!`);
-//     //         });
-//     //     }
-
-//         return NextResponse.json({
-//             success:true,
-//             message: "Trabajo creado correctamente."
-//         })
-//     }catch(err){
-//         return NextResponse.json({
-//             success:false,
-//             message: "Error creando el trabajo."
-//         })
-//     }
-// }
+        return NextResponse.json({
+            success:true,
+            message:"Servicios guardados correctamente",
+        })
+    } catch (error) {
+        return NextResponse.json({
+            success:false,
+            message:"Error guardando servicios.",
+        })
+    }
+}
