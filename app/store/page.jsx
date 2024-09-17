@@ -15,6 +15,7 @@ import Image from 'next/image'
 
 import placeholder_image from "../../public/placeholder_shop.png"
 import ModalAddService from '../Components/ModalAddService/ModalAddService'
+import ModalAddSocial from '../Components/modalAddSocial/ModalAddSocial'
 
 export default /* async */ function page() {
 
@@ -24,7 +25,9 @@ export default /* async */ function page() {
     const [loading, setLoading] = useState(true)
     const [addService, setAddService] = useState(false)
     const [AllService, setAllService] = useState([])
+    const [modalSocials, setmodalSocials] = useState(false)
 
+    const [currentSocial, setCurrentSocial] = useState("")
 
     
     const getAllServices = async () =>{
@@ -38,7 +41,6 @@ export default /* async */ function page() {
       }else{
 
       }
-      
     }
     const getstores = async (email)=>{
         let request = await fetch(process.env.NEXT_PUBLIC_URL + "/api/tiendas/"+ email,{
@@ -56,7 +58,7 @@ export default /* async */ function page() {
     }, [user])
 
     useEffect(()=>{
-        if(user?.email){
+        if(user?.email && !addService){
             getstores(user?.email)
             setLoading(true)
         }
@@ -66,6 +68,18 @@ export default /* async */ function page() {
         }
       },[modalCreateStore, addService])
 
+      const cashFormatter = (cash) =>{
+        const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'UYU',
+        });
+        return formatter.format(cash)
+      } 
+
+      const ModalAddSocials = (e)=>{
+        setCurrentSocial(e)
+        setmodalSocials(true)
+      }
 
   return (
     <div className={store.wrapper}>
@@ -73,7 +87,7 @@ export default /* async */ function page() {
 
         {
             !loading?
-                stores.success?
+                stores?.success?
                 <div className={store.zero_stores}>
                     <h1>¡No tenés ninguna tienda!</h1>
                     <p>Click <Button variant={"outline"} onClick={()=>setModalCreateStore(true)}>Aquí</Button> para crear una!</p>
@@ -82,9 +96,8 @@ export default /* async */ function page() {
                 <div className="container mx-auto p-4 space-y-6">
                 {/* Header Section */}
                 <div className={store.store_options}>
-                        <Button variant={"outline"} onClick={()=>setAddService(true)}>Agregar Servicio</Button>
-                        <Button variant={"outline"}>Quitar Servicio</Button>
-                        <Select>
+                        <Button variant={"outline"} onClick={()=>setAddService(true)}>Agregar o quitar servicio</Button>
+                        <Select onValueChange={e=>ModalAddSocials(e)}>
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="Agregar red social" />
                             </SelectTrigger>
@@ -103,13 +116,13 @@ export default /* async */ function page() {
 
                   <Image
                     src={placeholder_image}
-                    alt={`${stores.data[0].store } Logo`}
+                    alt={`${stores?.data[0].store } Logo`}
                     width={150}
                     height={150}
                     className="rounded-full border bg-white"
                   />
                   <div className="text-center md:text-left space-y-2">
-                    <h1 className="text-3xl font-bold">{stores.data[0].store } </h1>
+                    <h1 className="text-3xl font-bold">{stores?.data[0].store } </h1>
                     <div className="flex items-center justify-center md:justify-start gap-2">
                       {/* <Star className="w-5 h-5 fill-yellow-400 stroke-yellow-400" /> */}
                       <span className="font-semibold"><Rating  /> </span>
@@ -117,7 +130,7 @@ export default /* async */ function page() {
                     </div>
                     <div className="flex items-center justify-center md:justify-start gap-2 text-muted-foreground">
                       <MapPin className="w-4 h-4" />
-                      <span>{stores.data[0].address}</span>
+                      <span>{stores?.data[0].address}</span>
                     </div>
                   </div>
                 </div>
@@ -162,8 +175,8 @@ export default /* async */ function page() {
                   <CardHeader>
                     <CardTitle>Nuestros servicios</CardTitle>
                   </CardHeader>
-                  <CardContent className="grid gap-4">
-                      {stores.data[0].services?.map((el, index)=>
+                  <CardContent className="grid gap-4 max-h-[336px] overflow-y-scroll">
+                      {stores?.data[0].services?.map((el, index)=>
                         <div className="flex items-center justify-between gap-4 w-100 border-b-4 border-gray pb-5">
                           <div className="flex items-center gap-4">
                             <Wrench className="w-8 h-8 text-primary" />
@@ -173,11 +186,11 @@ export default /* async */ function page() {
                             </div>
                           </div>
                           <div>
-                              <p className="text-sm">Precios entre {el.price - 50} y {el.price + 200}</p>
+                              <p className="text-sm">Precios varian entre { cashFormatter(el.price_min) } y { cashFormatter(el.price_max)  }</p>
                           </div>
                         </div>
                       )}
-                      {stores.data[0].services?
+                      {stores?.data[0].services?
                       null:
                       <p>En este perfil todavia no ha configurado ningun servicio.</p>}
 {/* 
@@ -337,7 +350,7 @@ export default /* async */ function page() {
                       <Phone className="w-5 h-5 text-primary" />
                       <div>
                         <h3 className="font-semibold">Número</h3>
-                        <p className="text-sm text-muted-foreground">{stores.data[0].phone}</p>
+                      <p className="text-sm text-muted-foreground">{stores?.data[0].phone}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
@@ -373,7 +386,11 @@ export default /* async */ function page() {
             <></>
         }
         {addService && (
-        <ModalAddService open={addService} setOpen={setAddService} owner={stores.data[0].owner}/> 
+        <ModalAddService open={addService} setOpen={setAddService} services={stores?.data[0].services} owner={stores.data[0].owner}/> 
+      )}
+        {modalSocials && (
+            // open, setOpen,name,socials
+        <ModalAddSocial open={modalSocials} setOpen={setmodalSocials} services={stores?.data[0].socials} name={stores.data[0].store} socials={currentSocial} email={user?.email}/> 
       )}
     </div>
   )

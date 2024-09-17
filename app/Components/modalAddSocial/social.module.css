@@ -1,0 +1,4 @@
+.bg{
+    background-color: var(--header_backg);
+    border: solid 1px var(--border-color);
+}
