@@ -55,31 +55,24 @@ export async function GET(request, {params}) {
 }
 
 export async function PATCH(req) {
-    const {owner , services} = await req.json()
-    try {
+    console.log("hola")
+    const {owner , data} = await req.json()
+    try{
+        const qStores = query(collection(db, "stores"), where("owner", "==", owner));
+        const qStoreSnapshot = await getDocs(qStores)
+    
+        const docs = qStoreSnapshot.docs.map(doc => ({
+            id: doc.id,    // Get the document ID
+            ...doc.data()  // Spread the rest of the document data
+        }));
 
-        console.log(owner)
-        console.log(services)
-
-        const q = query(collection(db, "stores"), where("owner", "==", owner));
-        const querySnapshot = await getDocs(q);
-
-        if (querySnapshot.empty) {
-            console.log("No se encontró un documento con ese email.");
-            return;
-          }
-      
-              // Asumimos que el email es único y solo hay un documento
-        const document = querySnapshot.docs[0];
-        
-        const docRef = doc(db, "stores", document.id);
-        await updateDoc(docRef, {
-          services // El nuevo array de servicios
-        });
-
+        const storeDocRef = doc(db, "stores", docs[0].id);
+                await updateDoc(storeDocRef, {
+                    socials:data
+                });
         return NextResponse.json({
-            success:true,
-            message:"Servicios guardados correctamente",
+            success: true,
+            message: "Trabajo Archivado correctamente."
         })
     } catch (error) {
         return NextResponse.json({

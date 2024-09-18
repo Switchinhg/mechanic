@@ -81,6 +81,7 @@ export default /* async */ function page() {
         setmodalSocials(true)
       }
 
+      console.log(stores?.data[0])
   return (
     <div className={store.wrapper}>
         {/* <SideBar /> */}
@@ -390,7 +391,7 @@ export default /* async */ function page() {
       )}
         {modalSocials && (
             // open, setOpen,name,socials
-        <ModalAddSocial open={modalSocials} setOpen={setmodalSocials} services={stores?.data[0].socials} name={stores.data[0].store} socials={currentSocial} email={user?.email}/> 
+        <ModalAddSocial open={modalSocials} setOpen={setmodalSocials} name={stores.data[0].store} socials={currentSocial} email={stores.data[0].owner}/> 
       )}
     </div>
   )

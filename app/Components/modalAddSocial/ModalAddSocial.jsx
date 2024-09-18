@@ -9,19 +9,75 @@ import { Button } from '@/components/ui/button'
 
   import socialStyle from './social.module.css'
   import { toast } from "@/components/ui/use-toast"
+import { Toast } from '@/components/ui/toast'
 
 export default function ModalAddSocial({open, setOpen,name,socials, email}) {
     const [socialDB, setSocialDB] = useState([])
     const [social, setSocial] = useState()
 
-    const addNewSocial = async (e) =>{
-        let request = await fetch(process.env.NEXT_PUBLIC_URL + "/api/socials/"+ email,{
-            method:"GET",
-        })
-        let socials = await request.json()
-        setSocialDB(socials)
-        
+    const getAllSocials = async (e) =>{
+        let request = await fetch(process.env.NEXT_PUBLIC_URL + "/api/socials/"+ email)
+        let response = await request.json()
+        console.log(response)
+        if(response.success){
+          response?.socials? setSocialDB(response?.data[0].socials) : null
+        }else{
+          Toast({
+            title: "Error",
+            description: socials.message,
+            varian: "destructive",
+          });
+        }
+        console.log(socials)
+        console.log(socialDB)
     }
+    const addNewSocial = async () =>{
+      let socialData = {
+        name:socials,
+        link:social.link
+      }
+
+      console.log(socialData)
+      console.log(socials)
+
+      
+      if(socialDB.length > 0 && socialDB.some(e=>e.name == socials)){
+
+        console.log("ya tiene en el db la social")
+        // let removeSocial = socialDB.filter(e=>e.name != socials)
+        // setSocialDB(removeSocial)
+      }else{
+        if(socialDB.length > 0){
+          setSocialDB([...socialDB, socialData])
+        }else{
+          setSocialDB([socialData])
+        }
+      }
+      console.log(socialDB)
+      // let request = await fetch(process.env.NEXT_PUBLIC_URL + "/api/socials/",{
+      //   method:"PATCH",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //     body: JSON.stringify({owner:email,data:social}),
+      // })
+      // let response = await request.json()
+      // console.log(response)
+    }
+
+    useEffect(() => {
+      getAllSocials()
+    }, [])
+    useEffect(() => {
+      console.log(socialDB)
+    }, [socialDB])
+
+
+    const setSocialLink = (e) =>{
+      setSocial({name:socials,link:e.target.value})
+      console.log(e.target.value)
+    }
+    
     
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -41,12 +97,12 @@ export default function ModalAddSocial({open, setOpen,name,socials, email}) {
         
             <div>
                 <Label htmlFor="accountLink">Account Link</Label>
-                <Input id="accountLink" type="Text" className="col-span-3" placeholder={`Ej: https://mstaller.com/store/${name}`} required value={social} onChange={e=>setSocial(e.target.value)} />
+                <Input id="accountLink" type="Text" className="col-span-3" placeholder={`Ej: https://mstaller.com/store/${name}`} required value={social?.link} onChange={e=>setSocialLink(e)} />
             </div>
 
 
       <DialogFooter>
-        <Button onClick={addNewSocial}>Save changes</Button>
+        <Button onClick={()=>addNewSocial()}>Save changes</Button>
       </DialogFooter>
     </DialogContent>
   </Dialog>
