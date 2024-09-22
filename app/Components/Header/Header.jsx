@@ -24,6 +24,7 @@ import { useUserContext } from '../context/UserContext'
 import { usePathname } from 'next/navigation'
 import { useCartContext } from '../context/CartContext'
 import { Skeleton } from '@/components/ui/skeleton'
+import Image from 'next/image'
 
 
 
@@ -51,22 +52,23 @@ export default function Header() {
       <div className={header.img_lnks}>
 
       <div className={header.logo}>
-        <Link href={"/"}>🛠️ msTaller</Link>
+        <Link href={"/"}> <Image src="/blanco.png" width={200} height={50} className="hidden dark:block" /> </Link>
+        <Link href={"/"}> <Image src="/negro.png" width={200} height={50} className="block dark:hidden" /> </Link>
       </div>
     {
       logged?
         <ul className={header.links}>
           <li className={path == "/dashboard"? "link_active":""}><Link href={"/dashboard"}>Panel</Link></li>
-          <TooltipProvider>
+          {/* <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
                 <li className={path == "/store"? "link_active unavailable":"unavailable"}><Link href={"/store"}>Perfil de taller</Link></li></TooltipTrigger>
               <TooltipContent>
-                <p>Under Development</p>
+                <p>En desarrollo</p>
               </TooltipContent>
             </Tooltip>
-          </TooltipProvider>
-          <li><Link href={"/catalogo"} className={path == "/catalogo"? "link_active" :""}>Catalogo (testeo)</Link></li>
+          </TooltipProvider> */}
+          {/* <li><Link href={"/catalogo"} className={path == "/catalogo"? "link_active" :""}>Catalogo (testeo)</Link></li> */}
           
         </ul>
       : 

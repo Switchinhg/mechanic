@@ -13,7 +13,7 @@ export default function SideBar() {
             <div className={style.sidebar_body}>
                 <Link className={style.sidebar_link} href="/dashboard"> <CircleGauge /> <p>Detalles</p></Link>
                 <Link className={style.sidebar_link} href="/trabajos"> <Briefcase /> <p>Trabajos</p></Link>
-                <Link className={style.sidebar_link} href="/settings"> <Wrench /> <p>Configuración</p></Link>
+                {/* <Link className={style.sidebar_link} href="/settings"> <Wrench /> <p>Configuración</p></Link> */}
                 {/* <div>X</div> */}
             </div>
 

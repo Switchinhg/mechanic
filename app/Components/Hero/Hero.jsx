@@ -5,7 +5,18 @@ import { Autoplay } from 'swiper/modules';
 import styles from './Hero.module.css'
 // Import Swiper styles
 import 'swiper/css';
-
+import { StarIcon, CheckIcon, ChevronLeftIcon, ChevronRightIcon, XIcon } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 export default function Hero() {
   return (
 //     <Swiper
@@ -40,90 +51,121 @@ export default function Hero() {
 //         </div>
 //     </SwiperSlide>
 //   </Swiper>
-<div className={styles.container}>
-<header className={styles.hero}>
-  <h1 className={styles.title}>Gestor de Talleres Mecánicos</h1>
-  <p className={styles.subtitle}>
-    Gestiona tu taller y crea una tienda online personalizada.
-  </p>
-  <button className={styles.ctaButton}>Comenzar Gratis</button>
-</header>
+<div className="min-h-screen bg-gray-100">
+{/* Sección Hero */}
+<section className={`${styles.hero_bg} text-white`}>
+  <div className={`container mx-auto px-6 py-24 text-center ${styles.hero_height}`}>
+    <h1 className="mb-4 text-4xl font-bold md:text-6xl">Revoluciona la Gestión de tu Taller</h1>
+    <p className="mb-8 text-xl">Optimiza operaciones, aumenta la eficiencia y acelera el crecimiento con {process.env.NEXT_PUBLIC_APP_NAME}</p>
+  </div>
+</section>
 
-<section className={styles.features}>
-  <h2 className={styles.sectionTitle}>Características</h2>
-  <div className={styles.featuresList}>
-    <div className={styles.featureItem}>
-      <h3>Gestión Completa</h3>
-      <p>Organiza y controla todos los aspectos de tu taller desde una sola plataforma.</p>
-    </div>
-    <div className={styles.featureItem}>
-      <h3>Tienda Personalizada</h3>
-      <p>Crea y gestiona una tienda online adaptada a tu negocio.</p>
-    </div>
-    <div className={styles.featureItem}>
-      <h3>Informes Detallados</h3>
-      <p>Accede a informes que te ayudarán a tomar mejores decisiones.</p>
+{/* Sección de Características */}
+<section className={`${styles.hero_bg } py-20`}>
+  <div className="container mx-auto px-6">
+    <h2 className={`${styles.text } mb-12 text-center text-3xl font-bold`}>¿Por qué elegir {process.env.NEXT_PUBLIC_APP_NAME}?</h2>
+    <div className="grid gap-8 md:grid-cols-3">
+      {[
+        {
+          title: 'Inventario Optimizado',
+          description: 'Gestiona sin esfuerzo tu inventario de coches con actualizaciones en tiempo real y capacidades de búsqueda avanzadas.',
+        },
+        {
+          title: 'Gestión de Clientes',
+          description: 'Mantén un registro de las interacciones con los clientes, sus preferencias y el historial de servicios en un solo lugar.',
+        },
+        {
+          title: 'Programación Automatizada',
+          description: 'Optimiza la eficiencia de tu taller con nuestro sistema inteligente de programación para servicios y reparaciones.',
+        },
+      ].map((feature, index) => (
+        <div key={index} className="rounded-lg bg-white p-6 shadow-md">
+          <h3 className={`${styles.text_aways_dark} mb-3 text-xl font-semibold`}>{feature.title}</h3>
+          <p className="text-gray-600">{feature.description}</p>
+        </div>
+      ))}
     </div>
   </div>
 </section>
 
-<section className={styles.pricing}>
-  <h2 className={styles.sectionTitle}>Planes y Precios</h2>
-  <div className={styles.pricingTiers}>
-    <div className={styles.pricingCard}>
-      <h3>Free</h3>
-      <p>$0 / mes</p>
-      <ul>
-        <li>Hasta 5 vehículos</li>
-        <li>Gestión básica de trabajos</li>
-        <li>Tienda personalizada</li>
-      </ul>
-      <button className={styles.pricingButton}>Comenzar</button>
-    </div>
-    <div className={styles.pricingCard}>
-      <h3>Pro</h3>
-      <p>$29 / mes</p>
-      <ul>
-        <li>Gestión completa de taller</li>
-        <li>Tienda personalizada avanzada</li>
-        <li>Soporte premium</li>
-      </ul>
-      <button className={styles.pricingButton}>Obtener Pro</button>
-    </div>
-    <div className={styles.pricingCard}>
-      <h3>Enterprise</h3>
-      <p>$99 / mes</p>
-      <ul>
-        <li>Todo en Pro</li>
-        <li>Soporte dedicado 24/7</li>
-        <li>Funciones personalizadas</li>
-      </ul>
-      <button className={styles.pricingButton}>Contactar</button>
-    </div>
-  </div>
-</section>
-
-<section className={styles.testimonials}>
-  <h2 className={styles.sectionTitle}>Lo que dicen nuestros clientes</h2>
-  <div className={styles.testimonialList}>
-    <div className={styles.testimonialItem}>
-      <p>"Esta plataforma ha transformado mi taller. Es fácil de usar y la tienda online es un plus."</p>
-      <h4>- Juan Pérez, Taller ABC</h4>
-    </div>
-    <div className={styles.testimonialItem}>
-      <p>"La mejor inversión que he hecho para mi negocio. El soporte es excelente."</p>
-      <h4>- María López, Mecánica XYZ</h4>
+{/* Sección de Precios */}
+<section id="pricing" className={ `${styles.hero_bg} py-20`}>
+  <div className="container mx-auto px-6">
+    <h2 className={`${styles.text}  mb-12 text-center text-3xl font-bold`}>Elige tu Plan</h2>
+    <div className="grid gap-8 md:grid-cols-3">
+      {[
+        {
+          title: 'Gratis',
+          price: '$0',
+          features: ['Gestión básica de inventario', 'Hasta 50 vehículos', 'Soporte por correo electrónico'],
+        },
+        {
+          title: 'Taller Pequeño',
+          price: '$99/mes',
+          features: ['Gestión avanzada de inventario', 'Hasta 200 vehículos', 'Gestión de clientes', 'Soporte prioritario por correo'],
+        },
+        {
+          title: 'Taller Grande',
+          price: '$299/mes',
+          features: ['Inventario a nivel empresarial', 'Vehículos ilimitados', 'Análisis avanzados', 'Soporte telefónico 24/7'],
+        },
+      ].map((plan, index) => (
+        <div key={index} className="flex flex-col rounded-lg bg-white p-6 shadow-md">
+          <h3 className={`${styles.text_aways_dark} mb-4 text-2xl font-bold`}>{plan.title}</h3>
+          <p className={`${styles.text_aways_dark} mb-6 text-4xl font-bold`}>{plan.price}</p>
+          <ul className="mb-8 flex-grow space-y-2">
+            {plan.features.map((feature, i) => (
+              <li key={i} className="flex items-center">
+                <CheckIcon className="mr-2 h-5 w-5 text-green-500" />
+                <p className={styles.text_aways_dark}>{feature}</p>
+              </li>
+            ))}
+          </ul>
+          <Button
+            onClick={() => setIsLoginModalOpen(true)}
+            className="w-full rounded-full bg-blue-600 px-6 py-2 text-center font-semibold text-white transition-colors hover:bg-blue-700"
+          >
+            Elegir Plan
+          </Button>
+        </div>
+      ))}
     </div>
   </div>
 </section>
 
-<section className={styles.ctaSection}>
-  <h2 className={styles.sectionTitle}>¿Listo para llevar tu taller al siguiente nivel?</h2>
-  <button className={styles.ctaButtonLarge}>Prueba Gratis Ahora</button>
-</section>
+{/* Sección de Carrusel de Reseñas */}
 
-<footer className={styles.footer}>
-  <p>© 2024 Gestor de Talleres Mecánicos. Todos los derechos reservados.</p>
+
+
+{/* Sección CTA de Prueba Gratuita */}
+{/* <section className="bg-blue-600 py-20 text-white">
+  <div className="container mx-auto px-6 text-center">
+    <h2 className="mb-4 text-3xl font-bold">¿Listo para Transformar tu Taller?</h2>
+    <p className="mb-8 text-xl">Comienza tu prueba gratuita de 14 días hoy. No se requiere tarjeta de crédito.</p>
+     <form onSubmit={handleSubmit} className="mx-auto flex max-w-md flex-col items-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+      <Input
+        type="email"
+        placeholder="Ingresa tu correo electrónico"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="w-full rounded-full px-4 py-2 text-black sm:w-64"
+        required
+      />
+      <Button
+        type="submit"
+        className="w-full rounded-full bg-white px-6 py-2 font-semibold text-blue-600 transition-colors hover:bg-blue-100 sm:w-auto"
+      >
+        Iniciar Prueba Gratuita
+      </Button>
+    </form> 
+  </div>
+</section> */}
+
+{/* Pie de página */}
+<footer className="bg-gray-800 py-8 text-white">
+  <div className="container mx-auto px-6 text-center">
+    <p>&copy; 2024 msTaller. Todos los derechos reservados.</p>
+  </div>
 </footer>
 </div>
   )

@@ -1,4 +1,4 @@
-.slide{
+/* .slide{
     background-color: var(--test);
     height: 500px;
     display: flex;
@@ -199,4 +199,27 @@
     color: white;
     margin-top: 50px;
   }
-  
+   */
+
+
+   .hero_bg{
+    background-color: var(--bg-header);
+   }
+   .hero_height{
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+   }
+   .text{
+     color: var(--color_primary);
+
+   }
+   .text_aways_dark{
+    color: var(--color_primary_always_dark);
+   }
+   .why_bg{
+    background-color: var(--footer_backg);
+   }

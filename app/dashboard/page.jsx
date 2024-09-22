@@ -8,6 +8,12 @@ export default function page() {
   return (
     <div className={style.dashboard_wrap}>
         <SideBar />
+        <div className={style.dashboard}>
+            
+            Cuantos trabajos abiertos <br />
+            cuantos trabajos sin que le hayan pagado 
+            
+        </div>
     </div>
   )
 }
