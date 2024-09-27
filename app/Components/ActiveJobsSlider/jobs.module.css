@@ -1,0 +1,15 @@
+.slide{
+    background-color: var(--test);
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.swiper{
+    display: flex;    
+}
+
+.wrap{
+    background-color: red !important;
+}

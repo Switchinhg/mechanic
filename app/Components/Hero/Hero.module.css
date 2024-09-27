@@ -204,6 +204,8 @@
 
    .hero_bg{
     background-color: var(--bg-header);
+    border-bottom: solid 1px var(--footer_backg);
+    padding: 7rem 0;
    }
    .hero_height{
     height: 500px;

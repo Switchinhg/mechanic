@@ -53,7 +53,7 @@ export default function Hero() {
 //   </Swiper>
 <div className="min-h-screen bg-gray-100">
 {/* Sección Hero */}
-<section className={`${styles.hero_bg} text-white`}>
+<section className={`${styles.hero_bg} `}>
   <div className={`container mx-auto px-6 py-24 text-center ${styles.hero_height}`}>
     <h1 className="mb-4 text-4xl font-bold md:text-6xl">Revoluciona la Gestión de tu Taller</h1>
     <p className="mb-8 text-xl">Optimiza operaciones, aumenta la eficiencia y acelera el crecimiento con {process.env.NEXT_PUBLIC_APP_NAME}</p>
